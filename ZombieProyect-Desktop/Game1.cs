@@ -11,10 +11,13 @@ namespace ZombieProyect_Desktop
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        static Texture2D blankTexture;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
         }
 
@@ -27,6 +30,7 @@ namespace ZombieProyect_Desktop
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Classes.Map.InitializeMap(new Point(50,50));
 
             base.Initialize();
         }
@@ -41,6 +45,7 @@ namespace ZombieProyect_Desktop
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            blankTexture = Content.Load<Texture2D>("blank");
         }
 
         /// <summary>
@@ -73,10 +78,34 @@ namespace ZombieProyect_Desktop
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            GraphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin();
+            foreach (Classes.Tile t in Classes.Map.tileMap)
+            {
+                Color c = Color.Magenta;
+                switch (t.type)
+                {
+                    case Classes.TileType.none:
+                        c = Color.LightGreen;
+                        break;
+                    case Classes.TileType.floor:
+                        c = Color.LightGray;
+                        break;
+                    case Classes.TileType.wall:
+                        c = Color.Gray;
+                        break;
+                    case Classes.TileType.door:
+                        c = Color.MonoGameOrange;
+                        break;
+                    case Classes.TileType.blockeddoor:
+                        c = Color.Red;
+                        break;
+                    default:
+                        break;
+                }
+                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32), new Point(32)), c);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

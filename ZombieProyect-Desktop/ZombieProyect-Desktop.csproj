@@ -41,10 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\Furniture.cs" />
-    <Compile Include="Classes\House.cs" />
-    <Compile Include="Classes\Room.cs" />
-    <Compile Include="Classes\Wall.cs" />
+    <Compile Include="Classes\Map.cs" />
+    <Compile Include="Classes\Tile.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
