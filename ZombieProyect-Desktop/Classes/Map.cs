@@ -13,7 +13,7 @@ namespace ZombieProyect_Desktop.Classes
         public static Room[] rooms;
         static int lastRoom;
         public static Point tileMapSize;
-        static Random r = new Random();
+        public static Random r = new Random();
 
         public static void InitializeMap(Point size)
         {
@@ -30,6 +30,7 @@ namespace ZombieProyect_Desktop.Classes
 
             // Initialize rooms
             rooms = new Room[256];
+            lastRoom = 0;
         }
 
         public static void MakeStartingRoom()

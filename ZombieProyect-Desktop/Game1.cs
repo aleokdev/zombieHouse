@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Linq;
 
 namespace ZombieProyect_Desktop
 {
@@ -69,7 +70,13 @@ namespace ZombieProyect_Desktop
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                Classes.Map.InitializeMap(new Point(50, 50));
+                Classes.Map.MakeStartingRoom();
+                Classes.Map.MakeAdjacentRoomFromWall(Classes.Map.rooms[0].containedWalls.Where(s => s!=null&&!s.IsCornerWall()).ToArray()[Classes.Map.r.Next(1, Classes.Map.rooms[0].containedWalls.Count(s => s != null)-4)]);
+                Classes.Map.PlaceDoorBetweenRooms(Classes.Map.rooms[0], Classes.Map.rooms[1]);
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);

@@ -59,5 +59,21 @@ namespace ZombieProyect_Desktop.Classes
                 return GridAxis.negativeY;
             return null; // Tile is floor and there are no outer edges, or wall is sorrounded by other tiles.
         }
+
+        public bool IsCornerWall()
+        {
+            int a = 0;
+            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.none)
+                a++;
+            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.none)
+                a++;
+            if (Map.tileMap[pos.X, pos.Y + 1].type == TileType.none)
+                a++;
+            if (Map.tileMap[pos.X, pos.Y - 1].type == TileType.none)
+                a++;
+
+            if (a > 1) return true;
+            else return false;
+        }
     }
 }
