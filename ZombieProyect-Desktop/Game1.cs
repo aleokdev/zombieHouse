@@ -32,6 +32,7 @@ namespace ZombieProyect_Desktop
             // TODO: Add your initialization logic here
             Classes.Map.InitializeMap(new Point(50,50));
             Classes.Map.MakeStartingRoom();
+            Classes.Map.MakeAdjacentRoomFromWall(Classes.Map.rooms[0].containedWalls[1]);
             base.Initialize();
         }
 
@@ -103,7 +104,16 @@ namespace ZombieProyect_Desktop
                     default:
                         break;
                 }
-                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), c);
+                Color cr = Color.DarkGray;
+                if (t.parentRoom != null)
+                {
+                    cr = Color.Red;
+                }
+
+                if(Keyboard.GetState().IsKeyDown(Keys.Space)) //DrawRoom mode
+                    spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), cr);
+                else
+                    spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), c);
             }
             spriteBatch.End();
             base.Draw(gameTime);

@@ -15,6 +15,13 @@ namespace ZombieProyect_Desktop.Classes
         door,
         blockeddoor
     }
+    public enum GridAxis
+    {
+        positiveX,
+        negativeX,
+        positiveY,
+        negativeY
+    }
     public class Tile
     {
         public TileType type;
@@ -38,6 +45,19 @@ namespace ZombieProyect_Desktop.Classes
             t_pos = new Point(x, y);
             type = tileType;
             parentRoom = parent;
+        }
+
+        public GridAxis? CheckOuterEdgeOfWall()
+        {
+            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.none)
+                return GridAxis.positiveX;
+            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.none)
+                return GridAxis.negativeX;
+            if (Map.tileMap[pos.X, pos.Y +1].type == TileType.none)
+                return GridAxis.positiveY;
+            if (Map.tileMap[pos.X, pos.Y -1].type == TileType.none)
+                return GridAxis.negativeY;
+            return null; // Tile is floor and there are no outer edges, or wall is sorrounded by other tiles.
         }
     }
 }
