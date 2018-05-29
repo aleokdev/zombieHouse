@@ -70,6 +70,36 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
 
+        /// <summary>
+        /// Gets the walls that are common between 2 rooms. Rooms have to be adjacent for this algorithm to work.
+        /// </summary>
+        /// <param name="r1">A room.</param>
+        /// <param name="r2">Another adjacent room.</param>
+        /// <returns>The common walls.</returns>
+        public static Tile[] GetCommonWalls(Room r1, Room r2)
+        {
+            /*Because of the adjacentRoom algorithm, old walls from one room are removed when the new adjacent second room is placed.      *
+             * So we can detect walls in common by comparing the walls one room SHOULD have which the others that the other room HAVE.     *
+             * Or, if one room lacks walls that the other room has, those walls are common between the two rooms.                          */
+
+            Point[] commonPos = r1.GetWallsAroundFloor().Where(x => r2.GetWallsAroundFloor().Contains(x)).ToArray(); // Get the positions of the walls in common
+            Tile[] commonWalls = r1.containedWalls.Concat(r2.containedWalls).Where(x => commonPos.Contains(x?.pos ?? new Point(-256,-256))).ToArray(); // Search for those positions on both of the rooms
+            return commonWalls;
+        }
+
+        /// <summary>
+        /// Places a door between 2 rooms. Rooms have to be adjacent for this function to work.
+        /// </summary>
+        /// <param name="r1">A room.</param>
+        /// <param name="r2">Another adjacent room.</param>
+        public static void PlaceDoorBetweenRooms(Room r1, Room r2)
+        {
+            Tile[] walls = GetCommonWalls(r1, r2); // Get common walls.
+            walls = walls.Where(x => x != null).ToArray(); // Remove null elements.
+            walls = walls.Where(x => x != walls.First()&&x!=walls.Last()).ToArray(); // Remove first and last element, so doors aren't created on corners
+            tileMap[walls[r.Next(0, walls.Length - 1)].pos.X, walls[r.Next(0, walls.Length - 1)].pos.Y].type = TileType.door; // Transform any of the walls remaining into a door.
+        }
+
         public static void GenerateRoom(Point pos, Point size)
         {
             Room ro = new Room(pos, size);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace ZombieProyect_Desktop
 {
@@ -33,6 +34,7 @@ namespace ZombieProyect_Desktop
             Classes.Map.InitializeMap(new Point(50,50));
             Classes.Map.MakeStartingRoom();
             Classes.Map.MakeAdjacentRoomFromWall(Classes.Map.rooms[0].containedWalls[1]);
+            Classes.Map.PlaceDoorBetweenRooms(Classes.Map.rooms[0], Classes.Map.rooms[1]);
             base.Initialize();
         }
 
