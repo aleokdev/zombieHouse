@@ -26,11 +26,18 @@ namespace ZombieProyect_Desktop.Classes
                 return t_pos;
             }
         }
+        public Room parentRoom;
 
         public Tile(int x, int y, TileType tileType)
         {
             t_pos = new Point(x, y);
             type = tileType;
+        }
+        public Tile(int x, int y, TileType tileType, Room parent)
+        {
+            t_pos = new Point(x, y);
+            type = tileType;
+            parentRoom = parent;
         }
     }
 }

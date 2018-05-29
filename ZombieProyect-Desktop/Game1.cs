@@ -31,7 +31,7 @@ namespace ZombieProyect_Desktop
         {
             // TODO: Add your initialization logic here
             Classes.Map.InitializeMap(new Point(50,50));
-
+            Classes.Map.MakeStartingRoom();
             base.Initialize();
         }
 
@@ -103,7 +103,7 @@ namespace ZombieProyect_Desktop
                     default:
                         break;
                 }
-                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32), new Point(32)), c);
+                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), c);
             }
             spriteBatch.End();
             base.Draw(gameTime);
