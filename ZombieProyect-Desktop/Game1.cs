@@ -32,10 +32,8 @@ namespace ZombieProyect_Desktop
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Classes.Map.InitializeMap(new Point(50,50));
-            Classes.Map.MakeStartingRoom();
-            Classes.Map.MakeAdjacentRoomFromWall(Classes.Map.rooms[0].containedWalls[1]);
-            Classes.Map.PlaceDoorBetweenRooms(Classes.Map.rooms[0], Classes.Map.rooms[1]);
+            Classes.Map.GenerateHouse(15);
+            
             base.Initialize();
         }
 
@@ -72,10 +70,7 @@ namespace ZombieProyect_Desktop
                 Exit();
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                Classes.Map.InitializeMap(new Point(50, 50));
-                Classes.Map.MakeStartingRoom();
-                Classes.Map.MakeAdjacentRoomFromWall(Classes.Map.rooms[0].containedWalls.Where(s => s!=null&&!s.IsCornerWall()).ToArray()[Classes.Map.r.Next(1, Classes.Map.rooms[0].containedWalls.Count(s => s != null)-4)]);
-                Classes.Map.PlaceDoorBetweenRooms(Classes.Map.rooms[0], Classes.Map.rooms[1]);
+                Classes.Map.GenerateHouse(15);
             }
             // TODO: Add your update logic here
 
@@ -99,7 +94,11 @@ namespace ZombieProyect_Desktop
                         c = Color.LightGreen;
                         break;
                     case Classes.TileType.floor:
-                        c = Color.LightGray;
+                        if (Keyboard.GetState().IsKeyDown(Keys.Space) && t.parentRoom != null)
+                        {
+                            c = new Color(t.parentRoom.roomPos.X/(t.parentRoom.roomPos.Y*1f), t.parentRoom.roomPos.Y /(t.parentRoom.roomPos.X * 1f), 0);
+                        }
+                        else c = Color.LightGray;
                         break;
                     case Classes.TileType.wall:
                         c = Color.Gray;
@@ -113,16 +112,8 @@ namespace ZombieProyect_Desktop
                     default:
                         break;
                 }
-                Color cr = Color.DarkGray;
-                if (t.parentRoom != null)
-                {
-                    cr = Color.Red;
-                }
-
-                if(Keyboard.GetState().IsKeyDown(Keys.Space)) //DrawRoom mode
-                    spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), cr);
-                else
-                    spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Mouse.GetState().Position, new Point(32)), c);
+                
+                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 10, t.pos.Y * 10) - Mouse.GetState().Position* new Point(3), new Point(32)), c);
             }
             spriteBatch.End();
             base.Draw(gameTime);

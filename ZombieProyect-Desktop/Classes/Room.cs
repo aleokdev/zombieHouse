@@ -43,5 +43,14 @@ namespace ZombieProyect_Desktop.Classes
             }
             return walls;
         }
+
+        public bool RoomIntersects(Rectangle r)
+        {
+            return r.Intersects(new Rectangle(roomPos, roomSize));
+        }
+        public bool FloorIntersects(Rectangle r)
+        {
+            return r.Intersects(new Rectangle(roomPos+new Point(1), roomSize-new Point(2))); // Add a point to the XY pos and remove 2 to the size to get the floors
+        }
     }
 }

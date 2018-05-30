@@ -75,5 +75,21 @@ namespace ZombieProyect_Desktop.Classes
             if (a > 1) return true;
             else return false;
         }
+
+        public bool IsConnectedToTwoFloors()
+        {
+            int a = 0;
+            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.floor)
+                a++;
+            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.floor)
+                a++;
+            if (Map.tileMap[pos.X, pos.Y + 1].type == TileType.floor)
+                a++;
+            if (Map.tileMap[pos.X, pos.Y - 1].type == TileType.floor)
+                a++;
+
+            if (a == 2) return true;
+            else return false;
+        }
     }
 }
