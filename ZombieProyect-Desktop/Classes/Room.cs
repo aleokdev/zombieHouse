@@ -16,18 +16,25 @@ namespace ZombieProyect_Desktop.Classes
         public Tile[] containedFloor = new Tile[256];
         public Tile[] containedWalls = new Tile[256];
         public int wallpaper { get; private set; }
+        public int floors { get; private set; }
 
         public Room(Point pos, Point size)
         {
             t_roomPos = pos;
             t_roomSize = size;
             SetRandomWallpaper();
+            SetRandomFloor();
         }
 
         private void SetRandomWallpaper()
         {
             wallpaper = Map.r.Next(1, Main.wallpapers.Length);
         }
+        private void SetRandomFloor()
+        {
+            floors = Map.r.Next(0, Main.floors.Length);
+        }
+
         /// <summary>
         /// Returns the position of the walls that should be present around the floor of the room.
         /// </summary>
