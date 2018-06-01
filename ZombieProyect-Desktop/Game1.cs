@@ -14,6 +14,8 @@ namespace ZombieProyect_Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         static Texture2D blankTexture;
+        static Texture2D wallTexture;
+        static Texture2D[,] wallTextures;
 
         public Game1()
         {
@@ -48,6 +50,7 @@ namespace ZombieProyect_Desktop
 
             // TODO: use this.Content to load your game content here
             blankTexture = Content.Load<Texture2D>("blank");
+            wallTextures = Content.Load<Texture2D>("walls-common").SplitTileset(new Point(16,16));
         }
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace ZombieProyect_Desktop
                 Classes.Map.GenerateHouse(15);
             }
             // TODO: Add your update logic here
-
+            Classes.Player.Update();
             base.Update(gameTime);
         }
 
@@ -84,7 +87,7 @@ namespace ZombieProyect_Desktop
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
+            spriteBatch.Begin(samplerState:SamplerState.PointClamp);
             foreach (Classes.Tile t in Classes.Map.tileMap)
             {
                 Color c = Color.Magenta;
@@ -112,8 +115,56 @@ namespace ZombieProyect_Desktop
                     default:
                         break;
                 }
+
+                switch (t.type)
+                {
+                    case Classes.TileType.wall:
+                        Texture2D tex = wallTexture;
+                        switch (t.GetAccordingTexture())
+                        {
+                            case Classes.WallTextureType.horizontal:
+                                tex = wallTextures[1, 0];
+                                break;
+                            case Classes.WallTextureType.vertical:
+                                tex = wallTextures[0, 1];
+                                break;
+                            case Classes.WallTextureType.rightbottomcorner:
+                                tex = wallTextures[0, 0];
+                                break;
+                            case Classes.WallTextureType.leftbottomcorner:
+                                tex = wallTextures[1, 1];
+                                break;
+                            case Classes.WallTextureType.righttopcorner:
+                                tex = wallTextures[0, 2];
+                                break;
+                            case Classes.WallTextureType.lefttopcorner:
+                                tex = wallTextures[1, 2];
+                                break;
+                            case Classes.WallTextureType.allbutupjoint:
+                                tex = wallTextures[3, 0];
+                                break;
+                            case Classes.WallTextureType.allbutrightjoint:
+                                tex = wallTextures[2, 1];
+                                break;
+                            case Classes.WallTextureType.allbutbottomjoint:
+                                tex = wallTextures[2, 0];
+                                break;
+                            case Classes.WallTextureType.allbutleftjoint:
+                                tex = wallTextures[2, 2];
+                                break;
+                            case Classes.WallTextureType.unknown:
+                                tex = blankTexture;
+                                break;
+                            default:
+                                break;
+                        }
+                        spriteBatch.Draw(tex, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
+                        break;
+                    default:
+                        spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), c);
+                        break;
+                }
                 
-                spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 10, t.pos.Y * 10) - Mouse.GetState().Position* new Point(3), new Point(32)), c);
             }
             spriteBatch.End();
             base.Draw(gameTime);

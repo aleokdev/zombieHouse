@@ -22,6 +22,20 @@ namespace ZombieProyect_Desktop.Classes
         positiveY,
         negativeY
     }
+    public enum WallTextureType
+    {
+        horizontal,
+        vertical,
+        rightbottomcorner,
+        leftbottomcorner,
+        righttopcorner,
+        lefttopcorner,
+        allbutupjoint,
+        allbutrightjoint,
+        allbutbottomjoint,
+        allbutleftjoint,
+        unknown
+    }
     public class Tile
     {
         public TileType type;
@@ -90,6 +104,37 @@ namespace ZombieProyect_Desktop.Classes
 
             if (a == 2) return true;
             else return false;
+        }
+
+        public WallTextureType GetAccordingTexture()
+        {
+            bool a = Map.tileMap[pos.X, pos.Y - 1].type == TileType.wall|| Map.tileMap[pos.X, pos.Y - 1].type == TileType.door; // Upper tile is wall
+            bool b = Map.tileMap[pos.X + 1, pos.Y].type == TileType.wall|| Map.tileMap[pos.X + 1, pos.Y].type == TileType.door; // Next right tile is wall
+            bool c = Map.tileMap[pos.X, pos.Y + 1].type == TileType.wall|| Map.tileMap[pos.X, pos.Y + 1].type == TileType.door; // Bottom tile is wall
+            bool d = Map.tileMap[pos.X - 1, pos.Y].type == TileType.wall|| Map.tileMap[pos.X - 1, pos.Y].type == TileType.door; // Next left tile is wall
+
+            if (!a && b && !c && d) // Right & Left
+                return WallTextureType.horizontal;
+            if (a && !b && c && !d) // Upper & Bottom
+                return WallTextureType.vertical;
+            if (!a && !b && c && d) // Left & Bottom
+                return WallTextureType.leftbottomcorner;
+            if (!a && b && c && !d) // Right & Bottom
+                return WallTextureType.rightbottomcorner;
+            if (a && b && !c && !d) // Right & Top
+                return WallTextureType.righttopcorner;
+            if (a && !b && !c && d) // Left & Top
+                return WallTextureType.lefttopcorner;
+            if(!a&&b&&c&&d) // All but up
+                return WallTextureType.allbutupjoint;
+            if (a && !b && c && d) // All but right
+                return WallTextureType.allbutrightjoint;
+            if (a && b && !c && d) // All but bottom
+                return WallTextureType.allbutbottomjoint;
+            if (a && b && c && !d) // All but left
+                return WallTextureType.allbutleftjoint;
+
+            return WallTextureType.unknown;
         }
     }
 }
