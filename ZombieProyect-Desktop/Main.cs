@@ -9,15 +9,16 @@ namespace ZombieProyect_Desktop
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Main : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         static Texture2D blankTexture;
         static Texture2D wallTexture;
         static Texture2D[,] wallTextures;
+        public static Texture2D[,] wallpapers;
 
-        public Game1()
+        public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 720;
@@ -34,7 +35,7 @@ namespace ZombieProyect_Desktop
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Classes.Map.GenerateHouse(15);
+            
             
             base.Initialize();
         }
@@ -51,6 +52,9 @@ namespace ZombieProyect_Desktop
             // TODO: use this.Content to load your game content here
             blankTexture = Content.Load<Texture2D>("blank");
             wallTextures = Content.Load<Texture2D>("walls-common").SplitTileset(new Point(16,16));
+            wallpapers = Content.Load<Texture2D>("wallpapers").SplitTileset(new Point(16, 16));
+
+            Classes.Map.GenerateHouse(15);
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace ZombieProyect_Desktop
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(samplerState:SamplerState.PointClamp);
+            spriteBatch.Begin(samplerState:SamplerState.PointClamp, blendState:BlendState.AlphaBlend);
             foreach (Classes.Tile t in Classes.Map.tileMap)
             {
                 Color c = Color.Magenta;
@@ -124,6 +128,9 @@ namespace ZombieProyect_Desktop
                         {
                             case Classes.WallTextureType.horizontal:
                                 tex = wallTextures[1, 0];
+                                // Set wallpaper
+                                Texture2D wallpaper = wallpapers[Classes.Map.tileMap[t.pos.X, t.pos.Y + 1].parentRoom?.wallpaper ?? 0,0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                spriteBatch.Draw(wallpaper, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
                                 break;
                             case Classes.WallTextureType.vertical:
                                 tex = wallTextures[0, 1];
@@ -136,9 +143,15 @@ namespace ZombieProyect_Desktop
                                 break;
                             case Classes.WallTextureType.righttopcorner:
                                 tex = wallTextures[0, 2];
+                                // Set wallpaper
+                                Texture2D wallp = wallpapers[Classes.Map.tileMap[t.pos.X, t.pos.Y + 1].parentRoom?.wallpaper ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                spriteBatch.Draw(wallp, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
                                 break;
                             case Classes.WallTextureType.lefttopcorner:
                                 tex = wallTextures[1, 2];
+                                // Set wallpaper
+                                Texture2D wallpa = wallpapers[Classes.Map.tileMap[t.pos.X, t.pos.Y + 1].parentRoom?.wallpaper ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                spriteBatch.Draw(wallpa, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
                                 break;
                             case Classes.WallTextureType.allbutupjoint:
                                 tex = wallTextures[3, 0];
@@ -148,6 +161,9 @@ namespace ZombieProyect_Desktop
                                 break;
                             case Classes.WallTextureType.allbutbottomjoint:
                                 tex = wallTextures[2, 0];
+                                // Set wallpaper
+                                Texture2D wallpap = wallpapers[Classes.Map.tileMap[t.pos.X, t.pos.Y + 1].parentRoom?.wallpaper ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                spriteBatch.Draw(wallpap, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
                                 break;
                             case Classes.WallTextureType.allbutleftjoint:
                                 tex = wallTextures[2, 2];
@@ -159,6 +175,7 @@ namespace ZombieProyect_Desktop
                                 break;
                         }
                         spriteBatch.Draw(tex, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
+                        
                         break;
                     default:
                         spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), c);

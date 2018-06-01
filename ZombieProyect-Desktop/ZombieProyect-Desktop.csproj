@@ -64,7 +64,7 @@
     <Compile Include="Classes\Room.cs" />
     <Compile Include="Classes\Tile.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
