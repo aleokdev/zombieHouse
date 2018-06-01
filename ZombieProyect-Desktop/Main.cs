@@ -17,6 +17,7 @@ namespace ZombieProyect_Desktop
         static Texture2D wallTexture;
         static Texture2D[,] wallTextures;
         public static Texture2D[,] wallpapers;
+        public static Texture2D[,] doorTextures;
 
         public Main()
         {
@@ -53,6 +54,7 @@ namespace ZombieProyect_Desktop
             blankTexture = Content.Load<Texture2D>("blank");
             wallTextures = Content.Load<Texture2D>("walls-common").SplitTileset(new Point(16,16));
             wallpapers = Content.Load<Texture2D>("wallpapers").SplitTileset(new Point(16, 16));
+            doorTextures = Content.Load<Texture2D>("doors").SplitTileset(new Point(16, 16));
 
             Classes.Map.GenerateHouse(15);
         }
@@ -180,6 +182,13 @@ namespace ZombieProyect_Desktop
                         spriteBatch.Draw(tex, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
                         
                         break;
+                    case Classes.TileType.door:
+                        if(t.GetAccordingTexture()==Classes.WallTextureType.horizontal) // Door is horizontal
+                            spriteBatch.Draw(doorTextures[0,0], new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
+                        if (t.GetAccordingTexture() == Classes.WallTextureType.vertical) // Door is vertical
+                            spriteBatch.Draw(doorTextures[1, 0], new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), Color.White);
+                        break;
+
                     default:
                         spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.pos.X * 32, t.pos.Y * 32) - Classes.Player.pos, new Point(32)), c);
                         break;
