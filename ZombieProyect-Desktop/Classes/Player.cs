@@ -15,13 +15,13 @@ namespace ZombieProyect_Desktop.Classes
         {
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.W))
-                pos.Y-=256;
+                pos.Y-=100;
             if (state.IsKeyDown(Keys.A))
-                pos.X -= 256;
+                pos.X -= 100;
             if (state.IsKeyDown(Keys.S))
-                pos.Y += 256;
+                pos.Y += 100;
             if (state.IsKeyDown(Keys.D))
-                pos.X += 256;
+                pos.X += 100;
         }
     }
 }
