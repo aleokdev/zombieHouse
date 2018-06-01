@@ -168,6 +168,9 @@ namespace ZombieProyect_Desktop
                             case Classes.WallTextureType.allbutleftjoint:
                                 tex = wallTextures[2, 2];
                                 break;
+                            case Classes.WallTextureType.all:
+                                tex = wallTextures[3, 1];
+                                break;
                             case Classes.WallTextureType.unknown:
                                 tex = blankTexture;
                                 break;

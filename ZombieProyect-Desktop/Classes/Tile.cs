@@ -34,6 +34,7 @@ namespace ZombieProyect_Desktop.Classes
         allbutrightjoint,
         allbutbottomjoint,
         allbutleftjoint,
+        all,
         unknown
     }
     public class Tile
@@ -133,6 +134,10 @@ namespace ZombieProyect_Desktop.Classes
                 return WallTextureType.allbutbottomjoint;
             if (a && b && c && !d) // All but left
                 return WallTextureType.allbutleftjoint;
+            if (a && b && c && d) // All
+            {
+                return WallTextureType.all;
+            }
 
             return WallTextureType.unknown;
         }
