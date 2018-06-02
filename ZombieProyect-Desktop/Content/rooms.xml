@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<rooms>
+  <room name="kitchen">
+    <minSize>3,3</minSize>
+    <maxSize>5,5</maxSize>
+
+    <wallpaper>2</wallpaper>
+    <floor>0</floor>
+  </room>
+  <room name="dormitory">
+    <minSize>3,3</minSize>
+    <maxSize>6,6</maxSize>
+
+    <wallpaper>1</wallpaper>
+    <floor>1</floor>
+  </room>
+</rooms>
