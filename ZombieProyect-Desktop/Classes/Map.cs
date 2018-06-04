@@ -281,7 +281,7 @@ namespace ZombieProyect_Desktop.Classes
                     }
                     catch
                     {
-                        return null;
+                        return null; //TODO: Fully remove rooms that are semi-created and then try-catched
                     }
                 }
             }
