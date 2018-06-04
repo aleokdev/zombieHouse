@@ -10,9 +10,9 @@ namespace ZombieProyect_Desktop.Classes
 {
     public class RoomType
     {
-        int floorType;
-        int wallpaperType;
-        Dictionary<string, float> relations = new Dictionary<string, float>();
+        public int floorType;
+        public int wallpaperType;
+        public Dictionary<string, float> relations = new Dictionary<string, float>();
 
         public RoomType(int wallpaper, int floor, Dictionary<string, float> relations)
         {
@@ -33,7 +33,7 @@ namespace ZombieProyect_Desktop.Classes
 
         public static RoomType ParseFromXML(string node)
         {
-            return ParseFromXML(Main.roomsDocument.ChildNodes[1].SelectSingleNode(node));
+            return ParseFromXML(Main.roomsDocument.SelectSingleNode("/rooms/room[@name='"+node+"']"));
         }
 
         public static List<RoomType> GetAllRoomTypes()
