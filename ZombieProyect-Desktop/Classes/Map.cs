@@ -200,7 +200,7 @@ namespace ZombieProyect_Desktop.Classes
                 Console.WriteLine("Trying to place new room...");
                 for (int try_ = 0; try_ < lastRoomInTree.containedWalls.Where(x => x != null).ToArray().Length; try_++)
                 {
-                    Console.WriteLine("try_ = " + try_);
+                    //Console.WriteLine("try_ = " + try_);
                     Tile wallInLastRoom = lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
                     Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
                     if (ro != null)
