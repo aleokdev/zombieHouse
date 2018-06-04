@@ -33,10 +33,10 @@ namespace ZombieProyect_Desktop.Classes
             lastRoom = 0;
         }
 
-        public static void MakeStartingRoom()
+        public static Room MakeStartingRoom(RoomType type)
         {
             Point roomSize = new Point(r.Next(6, 10), r.Next(6, 10));
-            GenerateRoom(new Point(tileMapSize.X / 2 - roomSize.X / 2, tileMapSize.Y / 2 - roomSize.Y / 2), roomSize);
+            return GenerateRoom(new Point(tileMapSize.X / 2 - roomSize.X / 2, tileMapSize.Y / 2 - roomSize.Y / 2), roomSize, type);
         }
 
         /// <summary>
@@ -88,22 +88,66 @@ namespace ZombieProyect_Desktop.Classes
             else return null;
         }
 
-        public static void GenerateHouse(int maxRooms, int maxTriesForRoomCreation = 50)
+        /// <summary>
+        /// Make a room adjacent to the wall of another one. If the room cannot be made, null will be returned instead.
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <param name="maxTriesForRoomCreation"></param>
+        /// <returns>The room placed or null.</returns>
+        public static Room MakeAdjacentRoomFromWall(Tile wall, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
         {
-            InitializeMap(new Point(100, 100));
-            MakeStartingRoom();
-            int nOfRoom = 0;
-            for (int i = 0; i < maxRooms; i++)
+            if (wall.CheckOuterEdgeOfWall() != null)
             {
-                bool wasAbleToCreateRoom = false;
+                GridAxis edgeOut = (GridAxis)wall.CheckOuterEdgeOfWall();
+
                 for (int try_ = 0; try_ < maxTriesForRoomCreation; try_++)
                 {
-                    if (MakeAdjacentRoomFromWall(rooms[nOfRoom].containedWalls.Where(s => s != null && !s.IsCornerWall()).ToArray()[r.Next(1, rooms[nOfRoom].containedWalls.Count(s => s != null) - 4)]) != null) { wasAbleToCreateRoom = true; nOfRoom++; break; }
+                    Point roomSize = new Point(r.Next(minSize.X, maxSize.X+1), r.Next(minSize.Y, maxSize.Y + 1)); // Add 1 to maxSize because r.Next excludes the max number when randomizing
+                    Point startingPos = new Point(-256, -256); // Set the starting pos for the room.
+                    switch (edgeOut)
+                    {
+                        case GridAxis.positiveX: // Build room expanding on the X axis and randomly setting the Y axis
+                            startingPos = new Point(wall.pos.X, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            break;
+                        case GridAxis.negativeX: // Build room expanding on the -X axis and randomly setting the Y axis
+                            startingPos = new Point(wall.pos.X - roomSize.X + 1, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            break;
+                        case GridAxis.positiveY: // Build room randomly setting the X axis and expanding on the Y axis
+                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y);
+                            break;
+                        case GridAxis.negativeY: // Build room randomly setting the X axis and expanding on the -Y axis
+                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y - roomSize.Y + 1);
+                            break;
+                        default:
+                            break;
+                    }
+                    bool isCollidingWithOtherRooms = false;
+                    foreach (Room r in rooms)
+                    {
+                        if (r?.FloorIntersects(new Rectangle(startingPos, roomSize)) ?? false) isCollidingWithOtherRooms = true; // Floor intersects with any room's walls or floor? nope, repeat
+                    }
+                    if (!isCollidingWithOtherRooms)
+                    {
+                        Room room = GenerateRoom(startingPos, roomSize);
+                        return room;
+                    }
                 }
-                if (wasAbleToCreateRoom)
-                    PlaceDoorBetweenRooms(rooms[nOfRoom - 1], rooms[nOfRoom]);
-                else
-                    nOfRoom--;
+                return null;
+            }
+            else return null;
+        }
+
+        public static void GenerateHouse(int complexity, int maxTriesForRoomCreation = 50)
+        {
+            InitializeMap(new Point(200, 200));
+            
+            List<Room> roomTree = new List<Room>();
+            roomTree[0] = MakeStartingRoom();
+            for (int c = 1; c < complexity; c++)
+            {
+                Room lastRoomInTree = roomTree.Last();
+                Tile randomWallInLastRoom = lastRoomInTree.containedWalls[r.Next(0, lastRoomInTree.containedWalls.Length)];
+                MakeAdjacentRoomFromWall(randomWallInLastRoom);
             }
         }
 
@@ -149,9 +193,9 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="pos">The position of the room.</param>
         /// <param name="size">The size of the room.</param>
         /// <returns>The room made.</returns>
-        public static Room GenerateRoom(Point pos, Point size)
+        public static Room GenerateRoom(Point pos, Point size, RoomType type)
         {
-            Room ro = new Room(pos, size);
+            Room ro = new Room(pos, size, type);
             rooms[lastRoom] = ro;
             lastRoom++;
             for (int iy = 0; iy < size.Y; iy++)

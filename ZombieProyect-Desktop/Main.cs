@@ -2,7 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 
 namespace ZombieProyect_Desktop
 {
@@ -19,6 +22,7 @@ namespace ZombieProyect_Desktop
         public static Texture2D[,] wallpapers;
         public static Texture2D[,] floors;
         public static Texture2D[,] doorTextures;
+        public static XmlDocument roomsDocument = new XmlDocument();
 
         public Main()
         {
@@ -57,7 +61,10 @@ namespace ZombieProyect_Desktop
             wallpapers = Content.Load<Texture2D>("wallpapers").SplitTileset(new Point(16, 16));
             doorTextures = Content.Load<Texture2D>("doors").SplitTileset(new Point(16, 16));
             floors = Content.Load<Texture2D>("floors").SplitTileset(new Point(16, 16));
+            string docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\rooms.xml");
+            roomsDocument.Load(docPath);
 
+            Classes.RoomType.GetAllRoomTypes();
             Classes.Map.GenerateHouse(15);
         }
 
