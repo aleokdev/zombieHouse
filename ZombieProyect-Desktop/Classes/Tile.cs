@@ -64,14 +64,42 @@ namespace ZombieProyect_Desktop.Classes
 
         public GridAxis? CheckOuterEdgeOfWall()
         {
-            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.none)
+            try
+            {
+                if ((Map.tileMap[pos.X + 1, pos.Y]?.type ?? TileType.none) == TileType.none)
+                    return GridAxis.positiveX;
+            }
+            catch
+            {
                 return GridAxis.positiveX;
-            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.none)
+            }
+            try
+            {
+                if ((Map.tileMap[pos.X - 1, pos.Y]?.type ?? TileType.none) == TileType.none)
+                    return GridAxis.negativeX;
+            }
+            catch
+            {
                 return GridAxis.negativeX;
-            if (Map.tileMap[pos.X, pos.Y +1].type == TileType.none)
+            }
+            try
+            {
+                if ((Map.tileMap[pos.X, pos.Y + 1]?.type ?? TileType.none) == TileType.none)
+                    return GridAxis.positiveY;
+            }
+            catch
+            {
                 return GridAxis.positiveY;
-            if (Map.tileMap[pos.X, pos.Y -1].type == TileType.none)
+            }
+            try
+            {
+                if ((Map.tileMap[pos.X, pos.Y - 1]?.type ?? TileType.none) == TileType.none)
+                    return GridAxis.negativeY;
+            }
+            catch
+            {
                 return GridAxis.negativeY;
+            }
             return null; // Tile is floor and there are no outer edges, or wall is sorrounded by other tiles.
         }
 
@@ -109,10 +137,42 @@ namespace ZombieProyect_Desktop.Classes
 
         public WallTextureType GetAccordingTexture()
         {
-            bool a = Map.tileMap[pos.X, pos.Y - 1].type == TileType.wall|| Map.tileMap[pos.X, pos.Y - 1].type == TileType.door; // Upper tile is wall
-            bool b = Map.tileMap[pos.X + 1, pos.Y].type == TileType.wall|| Map.tileMap[pos.X + 1, pos.Y].type == TileType.door; // Next right tile is wall
-            bool c = Map.tileMap[pos.X, pos.Y + 1].type == TileType.wall|| Map.tileMap[pos.X, pos.Y + 1].type == TileType.door; // Bottom tile is wall
-            bool d = Map.tileMap[pos.X - 1, pos.Y].type == TileType.wall|| Map.tileMap[pos.X - 1, pos.Y].type == TileType.door; // Next left tile is wall
+            bool a;
+            try
+            {
+                a = Map.tileMap[pos.X, pos.Y-1].type == TileType.wall || Map.tileMap[pos.X, pos.Y-1].type == TileType.door; // Next left tile is wall
+            }
+            catch
+            {
+                a = false;
+            }
+            bool b;
+            try
+            {
+                b = Map.tileMap[pos.X +1, pos.Y].type == TileType.wall || Map.tileMap[pos.X+1, pos.Y].type == TileType.door; // Next left tile is wall
+            }
+            catch
+            {
+                b = false;
+            }
+            bool c;
+            try
+            {
+                c = Map.tileMap[pos.X, pos.Y+1].type == TileType.wall || Map.tileMap[pos.X, pos.Y+1].type == TileType.door; // Next left tile is wall
+            }
+            catch
+            {
+                c = false;
+            }
+            bool d;
+            try
+            {
+                d = Map.tileMap[pos.X - 1, pos.Y].type == TileType.wall || Map.tileMap[pos.X - 1, pos.Y].type == TileType.door; // Next left tile is wall
+            }
+            catch
+            {
+                d = false;
+            }
 
             if (!a && b && !c && d) // Right & Left
                 return WallTextureType.horizontal;
