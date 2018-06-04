@@ -71,12 +71,12 @@ namespace ZombieProyect_Desktop
             Room[] bestRooms=new Room[1];
             int bestLastRoom=0;
             int bestScore=0;
-            for(int h = 0; h < 15; h++)
+            for(int h = 0; h < 25; h++)
             {
                 int currentRooms;
                 int currentBranches;
                 Map.GenerateHouse(15, out currentBranches, out currentRooms);
-                if (currentRooms * currentBranches > bestScore)
+                if (currentBranches + currentRooms > bestScore)
                 {
                     bestTileMap = Map.tileMap;
                     bestRooms = Map.rooms;
