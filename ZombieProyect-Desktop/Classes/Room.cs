@@ -22,8 +22,6 @@ namespace ZombieProyect_Desktop.Classes
             t_roomPos = pos;
             t_roomSize = size;
             this.type = type;
-            SetRandomWallpaper();
-            SetRandomFloor();
         }
         
         /// <summary>
