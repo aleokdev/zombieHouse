@@ -11,7 +11,7 @@ namespace ZombieProyect_Desktop.Classes
     {
         public static Tile[,] tileMap;
         public static Room[] rooms;
-        static int lastRoom;
+        public static int lastRoom;
         public static Point tileMapSize;
         public static Random r = new Random();
 
@@ -45,7 +45,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Tile wall, int maxTriesForRoomCreation=50)
+        public static Room MakeAdjacentRoomFromWall(Tile wall, RoomType type, int maxTriesForRoomCreation=50)
         {
             if (wall.CheckOuterEdgeOfWall() != null)
             {
@@ -79,7 +79,7 @@ namespace ZombieProyect_Desktop.Classes
                     }
                     if (!isCollidingWithOtherRooms)
                     {
-                        Room room = GenerateRoom(startingPos, roomSize);
+                        Room room = GenerateRoom(startingPos, roomSize, type);
                         return room;
                     }
                 }
@@ -128,7 +128,7 @@ namespace ZombieProyect_Desktop.Classes
                     }
                     if (!isCollidingWithOtherRooms)
                     {
-                        Room room = GenerateRoom(startingPos, roomSize);
+                        Room room = GenerateRoom(startingPos, roomSize,null);
                         return room;
                     }
                 }
@@ -137,17 +137,81 @@ namespace ZombieProyect_Desktop.Classes
             else return null;
         }
 
-        public static void GenerateHouse(int complexity, int maxTriesForRoomCreation = 50)
+        public static void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
         {
-            InitializeMap(new Point(200, 200));
-            
+            InitializeMap(new Point(complexity*4, complexity * 4));
+            Console.WriteLine("Generating " + complexity * 4 + "x" + complexity * 4 + "t " + complexity + "c house.");
+
+            numberOfBranches = 0;
+            numberOfRooms = 0;
+
             List<Room> roomTree = new List<Room>();
-            roomTree[0] = MakeStartingRoom();
+            roomTree.Add(MakeStartingRoom(RoomType.GetRandomRoomType()));
+            
             for (int c = 1; c < complexity; c++)
             {
                 Room lastRoomInTree = roomTree.Last();
-                Tile randomWallInLastRoom = lastRoomInTree.containedWalls[r.Next(0, lastRoomInTree.containedWalls.Length)];
-                MakeAdjacentRoomFromWall(randomWallInLastRoom);
+                Console.WriteLine("Looped. c == " + c);
+                if (lastRoomInTree == null)
+                {
+                    Console.WriteLine("Last room was null; Stepping out.");
+                    numberOfBranches++;
+                    roomTree.Remove(lastRoomInTree);
+                    c--;
+
+                    if (roomTree.Count() == 0)
+                        break;
+                    lastRoomInTree = roomTree.Last();
+                }
+                if (c == complexity)
+                {
+                    Console.WriteLine("c reached max complexity; Stepping out.");
+                    numberOfBranches++;
+                    roomTree.Remove(lastRoomInTree);
+                    c--;
+
+                    if (roomTree.Count() == 0)
+                        break;
+                    lastRoomInTree = roomTree.Last();
+                }
+                if (lastRoomInTree.type.relations.Count() == 0)
+                {
+                    Console.WriteLine("No more relations found with current room. Stepping out.");
+                    numberOfBranches++;
+                    roomTree.Remove(lastRoomInTree);
+                    c--;
+
+                    if (roomTree.Count() == 0)
+                        break;
+                    lastRoomInTree = roomTree.Last();
+                }
+                if (r.Next(0,complexity) == 0 && c>0)
+                {
+                    Console.WriteLine("Random check; Stepping out.");
+                    numberOfBranches++;
+                    roomTree.Remove(lastRoomInTree);
+                    c--;
+
+                    if (roomTree.Count() == 0)
+                        break;
+                    lastRoomInTree = roomTree.Last();
+                }
+
+                Console.WriteLine("Trying to place new room...");
+                for (int try_ = 0; try_ < lastRoomInTree.containedWalls.Where(x => x != null).ToArray().Length; try_++)
+                {
+                    Console.WriteLine("try_ = " + try_);
+                    Tile wallInLastRoom = lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
+                    Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
+                    if (ro != null)
+                    {
+                        numberOfRooms++;
+                        roomTree.Add(ro);
+                        break;
+                    }
+                            
+                }
+
             }
         }
 
@@ -202,15 +266,22 @@ namespace ZombieProyect_Desktop.Classes
             {
                 for (int ix = 0; ix < size.X; ix++)
                 {
-                    if (iy == 0 || iy == size.Y-1 || ix == 0 || ix == size.X-1) // Tile is border
+                    try
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.wall);
-                        ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
+                        if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
+                        {
+                            tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.wall);
+                            ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
+                        }
+                        else
+                        {
+                            tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.floor, ro);
+                            ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
+                        }
                     }
-                    else
+                    catch
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.floor, ro);
-                        ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
+                        return null;
                     }
                 }
             }
