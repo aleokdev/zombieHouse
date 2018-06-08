@@ -41,7 +41,7 @@ namespace ZombieProyect_Desktop.Classes
     {
         public TileType type;
         private Point t_pos;
-        public Point pos
+        public Point Pos
         {
             get
             {
@@ -66,7 +66,7 @@ namespace ZombieProyect_Desktop.Classes
         {
             try
             {
-                if ((Map.tileMap[pos.X + 1, pos.Y]?.type ?? TileType.none) == TileType.none)
+                if ((Map.tileMap[Pos.X + 1, Pos.Y]?.type ?? TileType.none) == TileType.none)
                     return GridAxis.positiveX;
             }
             catch
@@ -75,7 +75,7 @@ namespace ZombieProyect_Desktop.Classes
             }
             try
             {
-                if ((Map.tileMap[pos.X - 1, pos.Y]?.type ?? TileType.none) == TileType.none)
+                if ((Map.tileMap[Pos.X - 1, Pos.Y]?.type ?? TileType.none) == TileType.none)
                     return GridAxis.negativeX;
             }
             catch
@@ -84,7 +84,7 @@ namespace ZombieProyect_Desktop.Classes
             }
             try
             {
-                if ((Map.tileMap[pos.X, pos.Y + 1]?.type ?? TileType.none) == TileType.none)
+                if ((Map.tileMap[Pos.X, Pos.Y + 1]?.type ?? TileType.none) == TileType.none)
                     return GridAxis.positiveY;
             }
             catch
@@ -93,7 +93,7 @@ namespace ZombieProyect_Desktop.Classes
             }
             try
             {
-                if ((Map.tileMap[pos.X, pos.Y - 1]?.type ?? TileType.none) == TileType.none)
+                if ((Map.tileMap[Pos.X, Pos.Y - 1]?.type ?? TileType.none) == TileType.none)
                     return GridAxis.negativeY;
             }
             catch
@@ -106,13 +106,13 @@ namespace ZombieProyect_Desktop.Classes
         public bool IsCornerWall()
         {
             int a = 0;
-            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.none)
+            if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.none)
                 a++;
-            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.none)
+            if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.none)
                 a++;
-            if (Map.tileMap[pos.X, pos.Y + 1].type == TileType.none)
+            if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.none)
                 a++;
-            if (Map.tileMap[pos.X, pos.Y - 1].type == TileType.none)
+            if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.none)
                 a++;
 
             if (a > 1) return true;
@@ -122,13 +122,13 @@ namespace ZombieProyect_Desktop.Classes
         public bool IsConnectedToTwoFloors()
         {
             int a = 0;
-            if (Map.tileMap[pos.X + 1, pos.Y].type == TileType.floor)
+            if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.floor)
                 a++;
-            if (Map.tileMap[pos.X - 1, pos.Y].type == TileType.floor)
+            if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.floor)
                 a++;
-            if (Map.tileMap[pos.X, pos.Y + 1].type == TileType.floor)
+            if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.floor)
                 a++;
-            if (Map.tileMap[pos.X, pos.Y - 1].type == TileType.floor)
+            if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.floor)
                 a++;
 
             if (a == 2) return true;
@@ -140,7 +140,7 @@ namespace ZombieProyect_Desktop.Classes
             bool a;
             try
             {
-                a = Map.tileMap[pos.X, pos.Y-1].type == TileType.wall || Map.tileMap[pos.X, pos.Y-1].type == TileType.door; // Next left tile is wall
+                a = Map.tileMap[Pos.X, Pos.Y-1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y-1].type == TileType.door; // Next left tile is wall
             }
             catch
             {
@@ -149,7 +149,7 @@ namespace ZombieProyect_Desktop.Classes
             bool b;
             try
             {
-                b = Map.tileMap[pos.X +1, pos.Y].type == TileType.wall || Map.tileMap[pos.X+1, pos.Y].type == TileType.door; // Next left tile is wall
+                b = Map.tileMap[Pos.X +1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X+1, Pos.Y].type == TileType.door; // Next left tile is wall
             }
             catch
             {
@@ -158,7 +158,7 @@ namespace ZombieProyect_Desktop.Classes
             bool c;
             try
             {
-                c = Map.tileMap[pos.X, pos.Y+1].type == TileType.wall || Map.tileMap[pos.X, pos.Y+1].type == TileType.door; // Next left tile is wall
+                c = Map.tileMap[Pos.X, Pos.Y+1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y+1].type == TileType.door; // Next left tile is wall
             }
             catch
             {
@@ -167,7 +167,7 @@ namespace ZombieProyect_Desktop.Classes
             bool d;
             try
             {
-                d = Map.tileMap[pos.X - 1, pos.Y].type == TileType.wall || Map.tileMap[pos.X - 1, pos.Y].type == TileType.door; // Next left tile is wall
+                d = Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.door; // Next left tile is wall
             }
             catch
             {

@@ -58,16 +58,16 @@ namespace ZombieProyect_Desktop.Classes
                     switch (edgeOut)
                     {
                         case GridAxis.positiveX: // Build room expanding on the X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.pos.X, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            startingPos = new Point(wall.Pos.X, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
                             break;
                         case GridAxis.negativeX: // Build room expanding on the -X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.pos.X - roomSize.X + 1, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            startingPos = new Point(wall.Pos.X - roomSize.X + 1, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
                             break;
                         case GridAxis.positiveY: // Build room randomly setting the X axis and expanding on the Y axis
-                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y);
+                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y);
                             break;
                         case GridAxis.negativeY: // Build room randomly setting the X axis and expanding on the -Y axis
-                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y - roomSize.Y + 1);
+                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y - roomSize.Y + 1);
                             break;
                         default:
                             break;
@@ -107,16 +107,16 @@ namespace ZombieProyect_Desktop.Classes
                     switch (edgeOut)
                     {
                         case GridAxis.positiveX: // Build room expanding on the X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.pos.X, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            startingPos = new Point(wall.Pos.X, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
                             break;
                         case GridAxis.negativeX: // Build room expanding on the -X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.pos.X - roomSize.X + 1, wall.pos.Y - r.Next(1, roomSize.Y - 1));
+                            startingPos = new Point(wall.Pos.X - roomSize.X + 1, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
                             break;
                         case GridAxis.positiveY: // Build room randomly setting the X axis and expanding on the Y axis
-                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y);
+                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y);
                             break;
                         case GridAxis.negativeY: // Build room randomly setting the X axis and expanding on the -Y axis
-                            startingPos = new Point(wall.pos.X - r.Next(1, roomSize.X - 1), wall.pos.Y - roomSize.Y + 1);
+                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y - roomSize.Y + 1);
                             break;
                         default:
                             break;
@@ -228,7 +228,7 @@ namespace ZombieProyect_Desktop.Classes
              * Or, if one room lacks walls that the other room has, those walls are common between the two rooms.                          */
 
             Point[] commonPos = r1.GetWallsAroundFloor().Where(x => r2.GetWallsAroundFloor().Contains(x)).ToArray(); // Get the positions of the walls in common
-            Tile[] commonWalls = r1.containedWalls.Concat(r2.containedWalls).Where(x => commonPos.Contains(x?.pos ?? new Point(-256,-256))).ToArray(); // Search for those positions on both of the rooms
+            Tile[] commonWalls = r1.containedWalls.Concat(r2.containedWalls).Where(x => commonPos.Contains(x?.Pos ?? new Point(-256,-256))).ToArray(); // Search for those positions on both of the rooms
             return commonWalls;
         }
 
@@ -246,8 +246,8 @@ namespace ZombieProyect_Desktop.Classes
                 return null;
             else
             {
-                tileMap[walls[r.Next(0, walls.Length - 1)].pos.X, walls[r.Next(0, walls.Length - 1)].pos.Y].type = TileType.door; // Transform any of the walls remaining into a door.
-                return tileMap[walls[r.Next(0, walls.Length - 1)].pos.X, walls[r.Next(0, walls.Length - 1)].pos.Y];
+                tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y].type = TileType.door; // Transform any of the walls remaining into a door.
+                return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
             }
         }
 
