@@ -158,12 +158,13 @@ namespace ZombieProyect_Desktop.Classes
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
                     c--;
+                    complexity--;
 
                     if (roomTree.Count() == 0)
                         break;
                     lastRoomInTree = roomTree.Last();
                 }
-                if (c == complexity)
+                if (c+1 == complexity)
                 {
                     Console.WriteLine("c reached max complexity; Stepping out.");
                     numberOfBranches++;
