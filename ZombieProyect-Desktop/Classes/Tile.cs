@@ -138,42 +138,21 @@ namespace ZombieProyect_Desktop.Classes
         public WallTextureType GetAccordingTexture()
         {
             bool a;
-            try
-            {
-                a = Map.tileMap[Pos.X, Pos.Y-1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y-1].type == TileType.door; // Next left tile is wall
-            }
-            catch
-            {
-                a = false;
-            }
+            if (Pos.Y - 1 < 0) a = false; // Catch if tile is outside of map
+            else a = Map.tileMap[Pos.X, Pos.Y-1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y-1].type == TileType.door; // Next left tile is wall
+            
             bool b;
-            try
-            {
-                b = Map.tileMap[Pos.X +1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X+1, Pos.Y].type == TileType.door; // Next left tile is wall
-            }
-            catch
-            {
-                b = false;
-            }
+            if (Pos.X + 1 >= Map.tileMapSize.X) b = false; // Catch if tile is outside of map
+            else b = Map.tileMap[Pos.X +1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X+1, Pos.Y].type == TileType.door; // Next left tile is wall
+            
             bool c;
-            try
-            {
-                c = Map.tileMap[Pos.X, Pos.Y+1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y+1].type == TileType.door; // Next left tile is wall
-            }
-            catch
-            {
-                c = false;
-            }
+            if (Pos.Y + 1 >= Map.tileMapSize.Y) c = false; // Catch if tile is outside of map
+            else c = Map.tileMap[Pos.X, Pos.Y+1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y+1].type == TileType.door; // Next left tile is wall
+            
             bool d;
-            try
-            {
-                d = Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.door; // Next left tile is wall
-            }
-            catch
-            {
-                d = false;
-            }
-
+            if (Pos.X - 1 < 0) d = false; // Catch if tile is outside of map
+            else d = Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.door; // Next left tile is wall
+            
             if (!a && b && !c && d) // Right & Left
                 return WallTextureType.horizontal;
             if (a && !b && c && !d) // Upper & Bottom
@@ -186,7 +165,7 @@ namespace ZombieProyect_Desktop.Classes
                 return WallTextureType.righttopcorner;
             if (a && !b && !c && d) // Left & Top
                 return WallTextureType.lefttopcorner;
-            if(!a&&b&&c&&d) // All but up
+            if(!a && b && c && d) // All but up
                 return WallTextureType.allbutupjoint;
             if (a && !b && c && d) // All but right
                 return WallTextureType.allbutrightjoint;
@@ -195,9 +174,7 @@ namespace ZombieProyect_Desktop.Classes
             if (a && b && c && !d) // All but left
                 return WallTextureType.allbutleftjoint;
             if (a && b && c && d) // All
-            {
                 return WallTextureType.all;
-            }
 
             return WallTextureType.unknown;
         }
