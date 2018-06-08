@@ -118,7 +118,6 @@ namespace ZombieProyect_Desktop
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //TODO: Optimize all of this and remove try-catch in GetAccordingTexture()!
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(samplerState:SamplerState.PointClamp, blendState:BlendState.AlphaBlend);
             foreach (Classes.Tile t in Classes.Map.tileMap)
