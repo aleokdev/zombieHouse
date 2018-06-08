@@ -53,7 +53,7 @@
   
   <room name="dormitory" minSize="3,3" maxSize="6,6">
     <wallpaper>1</wallpaper>
-    <floor>1</floor>
+    <floor>2</floor>
 
     <relations>
     </relations>
