@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<furniture>
+  <storage name="kitchenCabinet" texture ="cabinet.png">
+    <items>
+      <weapon ref="fryingPan" chance="0.9"></weapon>
+      <weapon ref="pistol" chance="0.2"></weapon>
+      <item ref="cannedFood" chance="0.8"></item>
+      <item ref="waterBottle" chance="0.7"></item>
+    </items>
+  </storage>
+  <decoration name="flowerPot" texture="flower.png">
+  </decoration>
+  
+</furniture>
