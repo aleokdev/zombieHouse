@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <furniture>
-  <storage name="kitchenCabinet" texture ="cabinet.png">
+  <storage name="kitchenCabinet" texture="cabinet.png" texture_opened="cabinetOpened.png">
     <items>
       <weapon ref="fryingPan" chance="0.9"></weapon>
+      <weapon ref="kitchenKnife" chance="0.85"></weapon>
       <weapon ref="pistol" chance="0.2"></weapon>
+      <ammo ref="pistol" chance="0.1"></ammo>
       <item ref="cannedFood" chance="0.8"></item>
       <item ref="waterBottle" chance="0.7"></item>
+      <item ref="limonade" chance="0.6"></item>
+      <item ref="soda" chance="0.65"></item>
+      <item ref="cola" chance="0.65"></item>
     </items>
   </storage>
   <decoration name="flowerPot" texture="flower.png">
   </decoration>
-  
 </furniture>
