@@ -14,6 +14,7 @@
       <item ref="cola" chance="0.65"></item>
     </items>
   </storage>
-  <decoration name="flowerPot" texture="flower.png">
-  </decoration>
+  <decoration name="flowerPot" texture="flower.png"></decoration>
+  <decoration name="table" texture="table.png"></decoration>
+  <decoration name="closet" texture="closet.png"></decoration>
 </furniture>
