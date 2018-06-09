@@ -61,6 +61,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\FurnitureType.cs" />
     <Compile Include="Classes\Map.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\Room.cs" />
