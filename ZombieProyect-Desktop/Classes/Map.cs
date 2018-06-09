@@ -47,45 +47,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <returns>The room placed or null.</returns>
         public static Room MakeAdjacentRoomFromWall(Tile wall, RoomType type, int maxTriesForRoomCreation=50)
         {
-            if (wall.CheckOuterEdgeOfWall() != null)
-            {
-                GridAxis edgeOut = (GridAxis)wall.CheckOuterEdgeOfWall();
-
-                for (int try_ = 0; try_ < maxTriesForRoomCreation; try_++)
-                {
-                    Point roomSize = new Point(r.Next(6, 10), r.Next(6, 10));
-                    Point startingPos = new Point(-256, -256); // Set the starting pos for the room.
-                    switch (edgeOut)
-                    {
-                        case GridAxis.positiveX: // Build room expanding on the X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.Pos.X, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
-                            break;
-                        case GridAxis.negativeX: // Build room expanding on the -X axis and randomly setting the Y axis
-                            startingPos = new Point(wall.Pos.X - roomSize.X + 1, wall.Pos.Y - r.Next(1, roomSize.Y - 1));
-                            break;
-                        case GridAxis.positiveY: // Build room randomly setting the X axis and expanding on the Y axis
-                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y);
-                            break;
-                        case GridAxis.negativeY: // Build room randomly setting the X axis and expanding on the -Y axis
-                            startingPos = new Point(wall.Pos.X - r.Next(1, roomSize.X - 1), wall.Pos.Y - roomSize.Y + 1);
-                            break;
-                        default:
-                            break;
-                    }
-                    bool isCollidingWithOtherRooms = false;
-                    foreach(Room r in rooms)
-                    {
-                        if (r?.FloorIntersects(new Rectangle(startingPos, roomSize))??false) isCollidingWithOtherRooms = true; // Floor intersects with any room's walls or floor? nope, repeat
-                    }
-                    if (!isCollidingWithOtherRooms)
-                    {
-                        Room room = GenerateRoom(startingPos, roomSize, type);
-                        return room;
-                    }
-                }
-                return null;
-            }
-            else return null;
+            return MakeAdjacentRoomFromWall(wall, type, new Point(6, 6), new Point(10, 10));
         }
 
         /// <summary>
@@ -94,7 +56,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Tile wall, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
+        public static Room MakeAdjacentRoomFromWall(Tile wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
         {
             if (wall.CheckOuterEdgeOfWall() != null)
             {
@@ -128,7 +90,7 @@ namespace ZombieProyect_Desktop.Classes
                     }
                     if (!isCollidingWithOtherRooms)
                     {
-                        Room room = GenerateRoom(startingPos, roomSize,null);
+                        Room room = GenerateRoom(startingPos, roomSize, type);
                         return room;
                     }
                 }
