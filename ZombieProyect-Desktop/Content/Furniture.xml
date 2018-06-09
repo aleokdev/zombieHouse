@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <furniture>
-  <storage name="kitchenCabinet" texture="cabinet.png" texture_opened="cabinetOpened.png">
+  <storage name="kitchenCabinet" texture="cabinet" texture_opened="cabinetOpened">
     <items>
       <weapon ref="fryingPan" chance="0.9"></weapon>
       <weapon ref="kitchenKnife" chance="0.85"></weapon>
@@ -14,7 +14,7 @@
       <item ref="cola" chance="0.65"></item>
     </items>
   </storage>
-  <decoration name="flowerPot" texture="flower.png"></decoration>
-  <decoration name="table" texture="table.png"></decoration>
-  <decoration name="closet" texture="closet.png"></decoration>
+  <decoration name="flowerPot" texture="flower"></decoration>
+  <decoration name="table" texture="table"></decoration>
+  <decoration name="closet" texture="closet"></decoration>
 </furniture>
