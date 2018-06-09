@@ -90,6 +90,8 @@ namespace ZombieProyect_Desktop
             Map.tileMap = bestTileMap;
             Map.rooms = bestRooms;
             Map.lastRoom = bestLastRoom;
+
+            Map.PlaceDoorsBetweenAllRooms();
         }
 
         /// <summary>
