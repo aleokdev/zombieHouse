@@ -25,6 +25,7 @@ namespace ZombieProyect_Desktop
         public static Texture2D[,] floors;
         public static Texture2D[,] doorTextures;
         public static XmlDocument roomsDocument = new XmlDocument();
+        public static XmlDocument furnitureDocument = new XmlDocument();
         public static Dictionary<string, Texture2D> furnitureTextures = new Dictionary<string, Texture2D>();
 
         public Main()
@@ -67,7 +68,9 @@ namespace ZombieProyect_Desktop
             floors = Content.Load<Texture2D>("floors").SplitTileset(new Point(16, 16));
             string docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\rooms.xml");
             roomsDocument.Load(docPath);
-            
+            docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\furniture.xml");
+            furnitureDocument.Load(docPath);
+
             RoomType.GetAllRoomTypes();
 
             Tile[,] bestTileMap=new Tile[1,1];
