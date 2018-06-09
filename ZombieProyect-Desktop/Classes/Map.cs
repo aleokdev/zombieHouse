@@ -9,12 +9,35 @@ namespace ZombieProyect_Desktop.Classes
 {
     public static class Map
     {
+        /// <summary>
+        /// Contains all tiles of the map.
+        /// </summary>
         public static Tile[,] tileMap;
+
+        /// <summary>
+        /// Contains all rooms of the map.
+        /// </summary>
         public static Room[] rooms;
+
+        /// <summary>
+        /// The last room index of the rooms array.
+        /// </summary>
         public static int lastRoom;
+
+        /// <summary>
+        /// The size of the tileMap.
+        /// </summary>
         public static Point tileMapSize;
+
+        /// <summary>
+        /// The random class of the Map.
+        /// </summary>
         public static Random r = new Random();
 
+        /// <summary>
+        /// Initialize the map with a certain size.
+        /// </summary>
+        /// <param name="size">The size of the tileMap.</param>
         public static void InitializeMap(Point size)
         {
             // Initialize tiles
@@ -33,10 +56,15 @@ namespace ZombieProyect_Desktop.Classes
             lastRoom = 0;
         }
 
+        /// <summary>
+        /// Make a room approximately at the center of the map.
+        /// </summary>
+        /// <param name="type">The RoomType of the room.</param>
+        /// <returns></returns>
         public static Room MakeStartingRoom(RoomType type)
         {
             Point roomSize = new Point(r.Next(6, 10), r.Next(6, 10));
-            return GenerateRoom(new Point(tileMapSize.X / 2 - roomSize.X / 2, tileMapSize.Y / 2 - roomSize.Y / 2), roomSize, type);
+            return GenerateRoom(new Point((tileMapSize.X / 2) - (roomSize.X / 2), (tileMapSize.Y / 2) - (roomSize.Y / 2)), roomSize, type);
         }
 
         /// <summary>
@@ -99,50 +127,58 @@ namespace ZombieProyect_Desktop.Classes
             else return null;
         }
 
+        /// <summary>
+        /// Generate a house with the current house generation algorithm.
+        /// </summary>
+        /// <param name="complexity">How many rooms can be in one branch.</param>
+        /// <param name="numberOfBranches">The number of times the rooms have branched out.</param>
+        /// <param name="numberOfRooms">The number of rooms the algorithm has generated.</param>
         public static void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
         {
             InitializeMap(new Point(complexity*4, complexity * 4));
-            Console.WriteLine("Generating " + complexity * 4 + "x" + complexity * 4 + "t " + complexity + "c house.");
+            Console.WriteLine("Generating " + (complexity * 4) + "x" + (complexity * 4) + "t " + complexity + "c house.");
 
             numberOfBranches = 0;
             numberOfRooms = 0;
 
-            List<Room> roomTree = new List<Room>();
-            roomTree.Add(MakeStartingRoom(RoomType.GetRandomRoomType()));
-            
+            List<Room> roomTree = new List<Room>
+            {
+                MakeStartingRoom(RoomType.GetRandomRoomType())
+            };
+
             for (int c = 1; c < complexity; c++)
             {
                 Room lastRoomInTree = roomTree.Last();
                 Console.WriteLine("Looped. c == " + c);
-                if (lastRoomInTree == null)
+                if (lastRoomInTree == null) //If the room was null, that means it wasn't able to create it without colliding with something or without creating it out of the map.
                 {
                     Console.WriteLine("Last room was null; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
-                    c--;
+                    c--; //Go one step out of the branch.
                     complexity--;
 
                     if (roomTree.Count() == 0)
                         break;
                     lastRoomInTree = roomTree.Last();
                 }
-                if (c+1 == complexity)
+                if (c+1 == complexity) //If c has almost reached complexity, step out to create more branches.
                 {
                     Console.WriteLine("c reached max complexity; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
-                    c--;
+                    c--; //Go one step out of the branch.
 
                     if (roomTree.Count() == 0)
                         break;
                     lastRoomInTree = roomTree.Last();
                 }
-                if (lastRoomInTree.type.relations.Count() == 0)
+                if (lastRoomInTree.type.relations.Count() == 0) //If the last room has no relations, step out.
                 {
                     Console.WriteLine("No more relations found with current room. Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
-                    c--;
+                    c--; //Go one step out of the branch.
 
                     if (roomTree.Count() == 0)
                         break;
@@ -153,7 +189,7 @@ namespace ZombieProyect_Desktop.Classes
                     Console.WriteLine("Random check; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
-                    c--;
+                    c--; //Go one step out of the branch.
 
                     if (roomTree.Count() == 0)
                         break;
@@ -171,10 +207,8 @@ namespace ZombieProyect_Desktop.Classes
                         numberOfRooms++;
                         roomTree.Add(ro);
                         break;
-                    }
-                            
+                    }      
                 }
-
             }
         }
 
