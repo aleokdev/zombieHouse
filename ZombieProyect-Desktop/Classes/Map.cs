@@ -211,6 +211,18 @@ namespace ZombieProyect_Desktop.Classes
                 }
             }
         }
+        
+        public static void PlaceDoorsBetweenAllRooms()
+        {
+            foreach(Room r in rooms)
+            {
+                foreach (Room r2 in rooms)
+                {
+                    if (r2 != null&&r!=null&& !r.connections.Contains(r2) && r != r2&&(r?.RoomIntersects(new Rectangle(r2.roomPos,r2.roomSize)) ?? false))
+                        PlaceDoorBetweenRooms(r, r2);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the walls that are common between 2 rooms. Rooms have to be adjacent for this algorithm to work.
@@ -244,6 +256,8 @@ namespace ZombieProyect_Desktop.Classes
             else
             {
                 tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y].type = TileType.door; // Transform any of the walls remaining into a door.
+                r1.connections.Add(r2); // Add connections
+                r2.connections.Add(r1);
                 return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
             }
         }
