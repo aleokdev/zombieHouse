@@ -19,7 +19,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <summary>
         /// List of rooms the room is connected to with a door.
         /// </summary>
-        public List<Room> connections;
+        public List<Room> connections = new List<Room>();
 
         public Room(Point pos, Point size, RoomType type)
         {
