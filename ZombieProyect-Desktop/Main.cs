@@ -45,7 +45,6 @@ namespace ZombieProyect_Desktop
         {
             // TODO: Add your initialization logic here
             
-            
             base.Initialize();
         }
 
@@ -124,6 +123,7 @@ namespace ZombieProyect_Desktop
             {
                 Color c = Color.Magenta;
                 if (t != null)
+                {
                     switch (t?.type)
                     {
                         case TileType.none:
@@ -132,7 +132,7 @@ namespace ZombieProyect_Desktop
                         case TileType.floor:
                             if (Keyboard.GetState().IsKeyDown(Keys.Space) && t.parentRoom != null)
                             {
-                                c = new Color(t.parentRoom.roomPos.X/(t.parentRoom.roomPos.Y*1f), t.parentRoom.roomPos.Y /(t.parentRoom.roomPos.X * 1f), 0);
+                                c = new Color(t.parentRoom.roomPos.X / (t.parentRoom.roomPos.Y * 1f), t.parentRoom.roomPos.Y / (t.parentRoom.roomPos.X * 1f), 0);
                             }
                             else c = Color.LightGray;
                             break;
@@ -149,7 +149,6 @@ namespace ZombieProyect_Desktop
                             break;
                     }
 
-                if(t!=null)
                     switch (t.type)
                     {
                         case TileType.wall:
@@ -159,7 +158,7 @@ namespace ZombieProyect_Desktop
                                 case WallTextureType.horizontal:
                                     tex = wallTextures[1, 0];
                                     // Set wallpaper
-                                    Texture2D wallpaper = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1].parentRoom?.type.wallpaperType ?? 0,0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                    Texture2D wallpaper = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1].parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
                                     spriteBatch.Draw(wallpaper, new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
                                     break;
                                 case WallTextureType.vertical:
@@ -207,12 +206,12 @@ namespace ZombieProyect_Desktop
                                 default:
                                     break;
                             }
+
                             spriteBatch.Draw(tex, new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
-                        
                             break;
                         case TileType.door:
-                            if(t.GetAccordingTexture()== WallTextureType.horizontal) // Door is horizontal
-                                spriteBatch.Draw(doorTextures[0,0], new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
+                            if (t.GetAccordingTexture() == WallTextureType.horizontal) // Door is horizontal
+                                spriteBatch.Draw(doorTextures[0, 0], new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
                             if (t.GetAccordingTexture() == WallTextureType.vertical) // Door is vertical
                                 spriteBatch.Draw(doorTextures[1, 0], new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
                             break;
@@ -225,7 +224,10 @@ namespace ZombieProyect_Desktop
                             spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), c);
                             break;
                     }
+                }
+                    
                 
+                    
             }
             spriteBatch.End();
             base.Draw(gameTime);
