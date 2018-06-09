@@ -122,14 +122,18 @@ namespace ZombieProyect_Desktop.Classes
         public bool IsConnectedToTwoFloors()
         {
             int a = 0;
-            if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.floor)
-                a++;
-            if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.floor)
-                a++;
-            if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.floor)
-                a++;
-            if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.floor)
-                a++;
+            if (!(Pos.X + 1>=Map.tileMapSize.X))
+                if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.floor)
+                    a++;
+            if (!(Pos.X - 1 <= 0))
+                if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.floor)
+                    a++;
+            if (!(Pos.Y + 1 >= Map.tileMapSize.Y))
+                if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.floor)
+                    a++;
+            if (!(Pos.Y - 1 <= 0))
+                if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.floor)
+                    a++;
 
             if (a == 2) return true;
             else return false;
