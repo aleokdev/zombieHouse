@@ -16,6 +16,10 @@ namespace ZombieProyect_Desktop.Classes
         public Tile[] containedFloor = new Tile[256];
         public Tile[] containedWalls = new Tile[256];
         public RoomType type;
+        /// <summary>
+        /// List of rooms the room is connected to with a door.
+        /// </summary>
+        public List<Room> connections;
 
         public Room(Point pos, Point size, RoomType type)
         {
