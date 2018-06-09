@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,7 @@ namespace ZombieProyect_Desktop
         public static Texture2D[,] floors;
         public static Texture2D[,] doorTextures;
         public static XmlDocument roomsDocument = new XmlDocument();
+        public static Dictionary<string, Texture2D> furnitureTextures = new Dictionary<string, Texture2D>();
 
         public Main()
         {
