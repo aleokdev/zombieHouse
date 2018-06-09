@@ -19,7 +19,6 @@ namespace ZombieProyect_Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         static Texture2D blankTexture;
-        static Texture2D wallTexture;
         static Texture2D[,] wallTextures;
         public static Texture2D[,] wallpapers;
         public static Texture2D[,] floors;
@@ -157,7 +156,7 @@ namespace ZombieProyect_Desktop
                     switch (t.type)
                     {
                         case TileType.wall:
-                            Texture2D tex = wallTexture;
+                            Texture2D tex = blankTexture;
                             switch (t.GetAccordingTexture())
                             {
                                 case WallTextureType.horizontal:
