@@ -27,6 +27,7 @@ namespace ZombieProyect_Desktop
         public static XmlDocument furnitureDocument = new XmlDocument();
         public static Dictionary<string, Texture2D> furnitureTextures = new Dictionary<string, Texture2D>();
         public static SpriteFont font;
+        public static FrameCounter fpsC = new FrameCounter();
 
         public Main()
         {
@@ -130,7 +131,6 @@ namespace ZombieProyect_Desktop
 
             bool roomView = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Space)) roomView = true;
-
             
             foreach (Tile t in Map.tileMap)
             {
@@ -231,8 +231,16 @@ namespace ZombieProyect_Desktop
                         spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()*16-Player.pos.ToVector2(), Color.White);
                     }
                 }
-                    
             }
+
+            #region Frame counter
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            fpsC.Update(deltaTime);
+
+            spriteBatch.DrawString(font, fpsC.AverageFramesPerSecond + " FPS", new Vector2(1, 1), Color.Magenta);
+            #endregion
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
