@@ -127,32 +127,15 @@ namespace ZombieProyect_Desktop
             spriteBatch.Begin(samplerState:SamplerState.PointClamp, blendState:BlendState.AlphaBlend);
             foreach (Tile t in Map.tileMap)
             {
-                Color c = Color.Magenta;
+                Color c = Color.White;
                 if (t != null)
                 {
-                    switch (t?.type)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
-                        case TileType.none:
-                            c = Color.LightGreen;
-                            break;
-                        case TileType.floor:
-                            if (Keyboard.GetState().IsKeyDown(Keys.Space) && t.parentRoom != null)
-                            {
-                                c = new Color(t.parentRoom.roomPos.X / (t.parentRoom.roomPos.Y * 1f), t.parentRoom.roomPos.Y / (t.parentRoom.roomPos.X * 1f), 0);
-                            }
-                            else c = Color.LightGray;
-                            break;
-                        case TileType.wall:
+                        if (t?.parentRoom == null)
                             c = Color.Gray;
-                            break;
-                        case TileType.door:
-                            c = Color.MonoGameOrange;
-                            break;
-                        case TileType.blockeddoor:
-                            c = Color.Red;
-                            break;
-                        default:
-                            break;
+                        else
+                            c = new Color(t.parentRoom.roomPos.X / (t.parentRoom.roomPos.Y * 1f), t.parentRoom.roomPos.Y / (t.parentRoom.roomPos.X * 1f), 0);
                     }
 
                     switch (t.type)
@@ -223,7 +206,7 @@ namespace ZombieProyect_Desktop
                             break;
 
                         case TileType.floor:
-                            spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), Color.White);
+                            spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * 32, t.Pos.Y * 32) - Player.pos, new Point(32)), c);
                             break;
 
                         default:
