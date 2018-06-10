@@ -68,6 +68,7 @@
     <Compile Include="Classes\RoomType.cs" />
     <Compile Include="Classes\Tile.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FrameCounter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
