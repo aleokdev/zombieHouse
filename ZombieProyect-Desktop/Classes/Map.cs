@@ -271,8 +271,7 @@ namespace ZombieProyect_Desktop.Classes
         public static Room GenerateRoom(Point pos, Point size, RoomType type)
         {
             Room ro = new Room(pos, size, type);
-            rooms[lastRoom] = ro;
-            lastRoom++;
+            
             for (int iy = 0; iy < size.Y; iy++)
             {
                 for (int ix = 0; ix < size.X; ix++)
@@ -296,6 +295,8 @@ namespace ZombieProyect_Desktop.Classes
                     }
                 }
             }
+            rooms[lastRoom] = ro;
+            lastRoom++;
             return ro;
         }
     }
