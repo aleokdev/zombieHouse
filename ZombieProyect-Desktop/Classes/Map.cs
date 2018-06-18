@@ -149,10 +149,10 @@ namespace ZombieProyect_Desktop.Classes
             for (int c = 1; c < complexity; c++)
             {
                 Room lastRoomInTree = roomTree.Last();
-                Console.WriteLine("Looped. c == " + c);
+                //Console.WriteLine("Looped. c == " + c);
                 if (lastRoomInTree == null) //If the room was null, that means it wasn't able to create it without colliding with something or without creating it out of the map.
                 {
-                    Console.WriteLine("Last room was null; Stepping out.");
+                    //Console.WriteLine("Last room was null; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
                     c--; //Go one step out of the branch.
@@ -164,7 +164,7 @@ namespace ZombieProyect_Desktop.Classes
                 }
                 if (c+1 == complexity) //If c has almost reached complexity, step out to create more branches.
                 {
-                    Console.WriteLine("c reached max complexity; Stepping out.");
+                    //Console.WriteLine("c reached max complexity; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
                     c--; //Go one step out of the branch.
@@ -175,7 +175,7 @@ namespace ZombieProyect_Desktop.Classes
                 }
                 if (lastRoomInTree.type.relations.Count() == 0) //If the last room has no relations, step out.
                 {
-                    Console.WriteLine("No more relations found with current room. Stepping out.");
+                    //Console.WriteLine("No more relations found with current room. Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
                     c--; //Go one step out of the branch.
@@ -186,7 +186,7 @@ namespace ZombieProyect_Desktop.Classes
                 }
                 if (r.Next(0,complexity) == 0 && c>0)
                 {
-                    Console.WriteLine("Random check; Stepping out.");
+                    //Console.WriteLine("Random check; Stepping out.");
                     numberOfBranches++;
                     roomTree.Remove(lastRoomInTree);
                     c--; //Go one step out of the branch.
@@ -196,7 +196,7 @@ namespace ZombieProyect_Desktop.Classes
                     lastRoomInTree = roomTree.Last();
                 }
 
-                Console.WriteLine("Trying to place new room...");
+                //Console.WriteLine("Trying to place new room...");
                 for (int try_ = 0; try_ < lastRoomInTree.containedWalls.Where(x => x != null).ToArray().Length; try_++)
                 {
                     //Console.WriteLine("try_ = " + try_);
