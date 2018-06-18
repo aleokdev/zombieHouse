@@ -79,8 +79,10 @@ namespace ZombieProyect_Desktop
             Room[] bestRooms=new Room[1];
             int bestLastRoom=0;
             int bestScore=0;
-            for(int h = 0; h < 25; h++)
+            Console.WriteLine("Generating houses.");
+            for (int h = 0; h < 25; h++)
             {
+                Console.WriteLine(h / 25f * 100 + "%; h = " + h);
                 Map.GenerateHouse(15, out int currentBranches, out int currentRooms);
                 if (currentBranches + currentRooms > bestScore)
                 {
@@ -94,6 +96,7 @@ namespace ZombieProyect_Desktop
             Map.rooms = bestRooms;
             Map.lastRoom = bestLastRoom;
 
+            Console.WriteLine("Placing doors.");
             Map.PlaceDoorsBetweenAllRooms();
         }
 
