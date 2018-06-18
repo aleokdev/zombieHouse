@@ -28,7 +28,7 @@ namespace ZombieProyect_Desktop
         public static Dictionary<string, Texture2D> furnitureTextures = new Dictionary<string, Texture2D>();
         public static SpriteFont font;
         public static FrameCounter fpsC = new FrameCounter();
-        public readonly int tileSize = 16;
+        public int tileSize = 16;
 
         public Main()
         {
@@ -110,6 +110,7 @@ namespace ZombieProyect_Desktop
             // TODO: Unload any non ContentManager content here
         }
 
+        int lastScrollValue;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -119,6 +120,11 @@ namespace ZombieProyect_Desktop
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Mouse.GetState().ScrollWheelValue != lastScrollValue)
+            {
+                tileSize += (Mouse.GetState().ScrollWheelValue - lastScrollValue)/32;
+                lastScrollValue = Mouse.GetState().ScrollWheelValue;
+            }
             // TODO: Add your update logic here
             Player.Update();
             base.Update(gameTime);
