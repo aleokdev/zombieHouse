@@ -10,18 +10,21 @@ namespace ZombieProyect_Desktop.Classes
 {
     public static class Player
     {
-        public static Point pos;
+        /// <summary>
+        /// The position of the player, measured in tiles.
+        /// </summary>
+        public static Vector2 pos;
         public static void Update()
         {
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.W))
-                pos.Y-=100;
+                pos.Y-=1;
             if (state.IsKeyDown(Keys.A))
-                pos.X -= 100;
+                pos.X -= 1;
             if (state.IsKeyDown(Keys.S))
-                pos.Y += 100;
+                pos.Y += 1;
             if (state.IsKeyDown(Keys.D))
-                pos.X += 100;
+                pos.X += 1;
         }
     }
 }
