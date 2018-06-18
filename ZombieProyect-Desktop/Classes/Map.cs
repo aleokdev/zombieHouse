@@ -271,27 +271,22 @@ namespace ZombieProyect_Desktop.Classes
         public static Room GenerateRoom(Point pos, Point size, RoomType type)
         {
             Room ro = new Room(pos, size, type);
-            
+
+            if (pos.X < 0 || pos.Y < 0 || (pos + size).X >= tileMapSize.X || (pos + size).Y >= tileMapSize.Y) return null; // Return null if room will be out of map if made
+
             for (int iy = 0; iy < size.Y; iy++)
             {
                 for (int ix = 0; ix < size.X; ix++)
                 {
-                    try
+                    if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
                     {
-                        if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
-                        {
-                            tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.wall);
-                            ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
-                        }
-                        else
-                        {
-                            tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.floor, ro);
-                            ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
-                        }
+                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.wall);
+                        ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
-                    catch
+                    else
                     {
-                        return null; //TODO: Fully remove rooms that are semi-created and then try-catched
+                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.floor, ro);
+                        ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                 }
             }
