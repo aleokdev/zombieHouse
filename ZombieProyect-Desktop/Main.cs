@@ -220,6 +220,10 @@ namespace ZombieProyect_Desktop
                             spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
                             break;
 
+                        case TileType.none:
+                            spriteBatch.Draw(floors[3, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
+                            break;
+
                         default:
                             spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
                             break;
