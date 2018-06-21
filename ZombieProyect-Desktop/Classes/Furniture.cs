@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ZombieProyect_Desktop.Classes
 {
-    public class Furniture
+    public class Furniture : MapObject
     {
-        public Point pos;
         public FurnitureType type;
         public Room room;
 
