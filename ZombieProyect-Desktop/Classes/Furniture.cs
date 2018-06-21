@@ -12,9 +12,8 @@ namespace ZombieProyect_Desktop.Classes
         public FurnitureType type;
         public Room room;
 
-        public Furniture(Point pos, FurnitureType type, Room r)
+        public Furniture(Point pos, FurnitureType type, Room r) : base(pos)
         {
-            this.pos = pos;
             this.type = type;
             room = r;
         }
