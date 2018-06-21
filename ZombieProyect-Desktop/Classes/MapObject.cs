@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace ZombieProyect_Desktop.Classes
 
         public MapObject(Vector2 pos) { this.pos = pos; }
 
-        public virtual void Draw() { }
+        public virtual void Draw(SpriteBatch draw) { }
     }
 }
