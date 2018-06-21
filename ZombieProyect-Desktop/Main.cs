@@ -152,7 +152,7 @@ namespace ZombieProyect_Desktop
                         if (t?.parentRoom == null)
                             c = Color.Gray;
                         else
-                            c = new Color(t.parentRoom.roomPos.X / (t.parentRoom.roomPos.Y * 1f), t.parentRoom.roomPos.Y / (t.parentRoom.roomPos.X * 1f), 0);
+                            c = new Color((t.parentRoom.roomPos.X+1) / ((t.parentRoom.roomPos.Y+1) * 1f), (t.parentRoom.roomPos.Y+1) / ((t.parentRoom.roomPos.X+1) * 1f), 0);
                     }
 
                     switch (t.type)
