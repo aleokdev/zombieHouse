@@ -11,6 +11,8 @@ namespace ZombieProyect_Desktop.Classes
     {
         public Point pos;
 
+        public MapObject(Point pos) { this.pos = pos; }
+
         public virtual void Draw() { }
     }
 }
