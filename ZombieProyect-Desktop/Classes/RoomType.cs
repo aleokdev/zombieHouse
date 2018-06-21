@@ -8,17 +8,37 @@ using System.Xml;
 
 namespace ZombieProyect_Desktop.Classes
 {
+    public enum FurnitureAnchor
+    {
+        top,
+        sides,
+    }
+
+    public struct FurnitureProperties
+    {
+        FurnitureAnchor anchor;
+        float chance;
+        
+        public FurnitureProperties(FurnitureAnchor ancho, float chanc)
+        {
+            this.anchor = ancho;
+            this.chance = chanc;
+        }
+    }
+
     public class RoomType
     {
         public int floorType;
         public int wallpaperType;
         public Dictionary<string, float> relations = new Dictionary<string, float>();
+        public Dictionary<string, FurnitureProperties> furniture = new Dictionary<string, FurnitureProperties>();
 
-        public RoomType(int wallpaper, int floor, Dictionary<string, float> relations)
+        public RoomType(int wallpaper, int floor, Dictionary<string, float> relations, Dictionary<string, FurnitureProperties> furn)
         {
             wallpaperType = wallpaper;
             floorType = floor;
             this.relations = relations;
+            furniture = furn;
         }
 
         public static RoomType ParseFromXML(XmlNode node)
@@ -26,9 +46,12 @@ namespace ZombieProyect_Desktop.Classes
             int wallpaperType = Int32.Parse(node.SelectSingleNode("wallpaper").InnerText);
             int floorType = Int32.Parse(node.SelectSingleNode("floor").InnerText);
             Dictionary<string, float> relations = new Dictionary<string, float>();
+            Dictionary<string, FurnitureProperties> furn = new Dictionary<string, FurnitureProperties>();
             foreach (XmlNode r in node.SelectSingleNode("relations"))
                 relations.Add(r.Attributes["ref"].Value, float.Parse(r.Attributes["chance"].Value));
-            return new RoomType(wallpaperType,floorType,relations);
+            foreach (XmlNode r in node.SelectSingleNode("furniture"))
+                furn.Add(r.Attributes["ref"].Value, new FurnitureProperties((FurnitureAnchor)Enum.Parse(typeof(FurnitureAnchor), r.Attributes["anchor"].Value), float.Parse(r.Attributes["chance"].Value)));
+            return new RoomType(wallpaperType,floorType,relations, furn);
         }
 
         public static RoomType ParseFromXML(string node)
