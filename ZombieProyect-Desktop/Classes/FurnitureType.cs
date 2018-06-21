@@ -53,7 +53,7 @@ namespace ZombieProyect_Desktop.Classes
                 List<DecorationType> types = new List<DecorationType>();
                 foreach (XmlNode n in Main.furnitureDocument.SelectNodes("/furniture/decoration"))
                 {
-                    types.Add(DecorationType.ParseFromXML(n));
+                    types.Add(ParseFromXML(n));
                 }
                 return types;
             }
