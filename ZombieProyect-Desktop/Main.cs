@@ -28,7 +28,7 @@ namespace ZombieProyect_Desktop
         public static Dictionary<string, Texture2D> furnitureTextures = new Dictionary<string, Texture2D>();
         public static SpriteFont font;
         public static FrameCounter fpsC = new FrameCounter();
-        public int tileSize = 16;
+        public static int tileSize = 16;
 
         public Main()
         {
@@ -73,7 +73,7 @@ namespace ZombieProyect_Desktop
             docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\furniture.xml");
             furnitureDocument.Load(docPath);
             font = Content.Load<SpriteFont>("font");
-
+            
             RoomType.GetAllRoomTypes();
 
             Tile[,] bestTileMap=new Tile[1,1];
