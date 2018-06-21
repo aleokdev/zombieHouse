@@ -12,6 +12,8 @@ namespace ZombieProyect_Desktop.Classes
     {
         top,
         sides,
+        center,
+        corners
     }
 
     public struct FurnitureProperties
