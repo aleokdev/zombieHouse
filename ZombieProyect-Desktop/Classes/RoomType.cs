@@ -16,8 +16,8 @@ namespace ZombieProyect_Desktop.Classes
 
     public struct FurnitureProperties
     {
-        FurnitureAnchor anchor;
-        float chance;
+        public FurnitureAnchor anchor;
+        public float chance;
         
         public FurnitureProperties(FurnitureAnchor ancho, float chanc)
         {
