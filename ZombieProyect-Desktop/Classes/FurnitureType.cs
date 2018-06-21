@@ -31,6 +31,16 @@ namespace ZombieProyect_Desktop.Classes
             this.textureRef = textureRef;
         }
 
+        public static FurnitureType ParseFromXML(string node)
+        {
+            var x = Main.furnitureDocument.SelectSingleNode("/furniture/decoration[@name='" + node + "']")?.Name ?? Main.furnitureDocument.SelectSingleNode("/furniture/storage[@name='" + node + "']").Name;
+            if (x=="storage")
+                return StorageType.ParseFromXML(node);
+            else if (x == "decoration")
+                return DecorationType.ParseFromXML(node);
+            return null;
+        }
+
         public class DecorationType : FurnitureType
         {
             public DecorationType(string textureRef) : base(textureRef)
@@ -43,7 +53,7 @@ namespace ZombieProyect_Desktop.Classes
                 return new DecorationType(_textureRef);
             }
 
-            public static DecorationType ParseFromXML(string node)
+            public new static DecorationType ParseFromXML(string node)
             {
                 return ParseFromXML(Main.furnitureDocument.SelectSingleNode("/furniture/decoration[@name='" + node + "']"));
             }
@@ -74,7 +84,7 @@ namespace ZombieProyect_Desktop.Classes
                 return new StorageType(_textureRef, _oTextureRef);
             }
 
-            public static StorageType ParseFromXML(string node)
+            public new static StorageType ParseFromXML(string node)
             {
                 return ParseFromXML(Main.furnitureDocument.SelectSingleNode("/furniture/storage[@name='" + node + "']"));
             }
