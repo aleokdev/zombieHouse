@@ -9,9 +9,9 @@ namespace ZombieProyect_Desktop.Classes
 {
     public abstract class MapObject
     {
-        public Point pos;
+        public Vector2 pos;
 
-        public MapObject(Point pos) { this.pos = pos; }
+        public MapObject(Vector2 pos) { this.pos = pos; }
 
         public virtual void Draw() { }
     }
