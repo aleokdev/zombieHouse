@@ -15,6 +15,11 @@ namespace ZombieProyect_Desktop.Classes
         public static Tile[,] tileMap;
 
         /// <summary>
+        /// Contains all objects of the map.
+        /// </summary>
+        public static List<MapObject> objectMap = new List<MapObject>();
+
+        /// <summary>
         /// Contains all rooms of the map.
         /// </summary>
         public static Room[] rooms;
@@ -212,6 +217,20 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
         
+        public static void GenerateFurniture()
+        {
+            foreach(Room ro in rooms)
+            {
+                foreach(string s in ro.type.furniture.Keys)
+                {
+                    if((float)r.NextDouble()<ro.type.furniture[s].chance) //If random chance...
+                    {
+                        objectMap.Add(new Furniture(new Vector2(0, 0), FurnitureType.ParseFromXML(s),ro));
+                    }
+                }
+            }
+        }
+
         public static void PlaceDoorsBetweenAllRooms()
         {
             foreach(Room r in rooms)
