@@ -99,6 +99,9 @@ namespace ZombieProyect_Desktop
 
             Console.WriteLine("Placing doors.");
             Map.PlaceDoorsBetweenAllRooms();
+
+            Console.WriteLine("Placing furniture.");
+            Map.GenerateFurniture();
         }
 
         /// <summary>
