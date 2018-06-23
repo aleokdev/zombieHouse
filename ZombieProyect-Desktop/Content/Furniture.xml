@@ -14,6 +14,12 @@
       <item ref="cola" chance="0.65"></item>
     </items>
   </storage>
+  <storage name="bookcase" texture="bookcase" texture_opened="bookcase">
+    <items>
+      <item ref="book" chance ="1"> </item>
+      <item ref="missile_launcher" chance="0.0000001"></item>
+    </items>
+  </storage>
   <decoration name="flowerPot" texture="flower"></decoration>
   <decoration name="table" texture="table"></decoration>
   <decoration name="closet" texture="closet"></decoration>
