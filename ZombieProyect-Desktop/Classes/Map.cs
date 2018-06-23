@@ -221,13 +221,14 @@ namespace ZombieProyect_Desktop.Classes
         {
             foreach(Room ro in rooms)
             {
-                foreach(string s in ro.type.furniture.Keys)
-                {
-                    if((float)r.NextDouble()<ro.type.furniture[s].chance) //If random chance...
+                if(ro!=null)
+                    foreach(string s in ro.type.furniture.Keys)
                     {
-                        objectMap.Add(new Furniture(new Vector2(0, 0), FurnitureType.ParseFromXML(s),ro));
+                        if((float)r.NextDouble()<ro.type.furniture[s].chance) //If random chance...
+                        {
+                            objectMap.Add(new Furniture(new Vector2(0, 0), FurnitureType.ParseFromXML(s),ro));
+                        }
                     }
-                }
             }
         }
 
