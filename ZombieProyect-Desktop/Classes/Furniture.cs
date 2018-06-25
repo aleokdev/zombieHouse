@@ -18,10 +18,5 @@ namespace ZombieProyect_Desktop.Classes
             this.type = type;
             room = r;
         }
-
-        public override void Draw(SpriteBatch draw)
-        {
-            draw.Draw(Main.wallpapers[0, 0], new Rectangle((int)pos.X * Main.tileSize, (int)pos.Y * Main.tileSize, 16, 16), Color.White);
-        }
     }
 }
