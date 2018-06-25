@@ -397,3 +397,10 @@
 /processorParam:TextureFormat=Color
 /build:textures/default_DefaultTextures/doors.psd
 
+#begin font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font.spritefont
+
