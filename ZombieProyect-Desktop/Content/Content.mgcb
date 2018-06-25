@@ -49,18 +49,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/default_DefaultTextures/furniture/cooker.psd
 
-#begin textures/default_DefaultTextures/furniture/doors.psd
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/default_DefaultTextures/furniture/doors.psd
-
 #begin textures/default_DefaultTextures/furniture/fridge.psd
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -348,4 +336,64 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/blank.psd
+
+#begin textures/sekritDLC_CrappyTextures/doors.psd
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/doors.psd
+
+#begin textures/sekritDLC_CrappyTextures/floors.psd
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/floors.psd
+
+#begin textures/sekritDLC_CrappyTextures/wallpapers.psd
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/wallpapers.psd
+
+#begin textures/sekritDLC_CrappyTextures/walls-common.psd
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/walls-common.psd
+
+#begin textures/default_DefaultTextures/doors.psd
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/default_DefaultTextures/doors.psd
 
