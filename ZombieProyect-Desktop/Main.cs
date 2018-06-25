@@ -18,7 +18,7 @@ namespace ZombieProyect_Desktop
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        static Texture2D blankTexture;
+        public static Texture2D blankTexture;
         static Texture2D[,] wallTextures;
         public static Texture2D[,] wallpapers;
         public static Texture2D[,] floors;
@@ -249,6 +249,11 @@ namespace ZombieProyect_Desktop
                         spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()* tileSize - Player.pos*tileSize, Color.White);
                     }
                 }
+            }
+
+            foreach(MapObject o in Map.objectMap)
+            {
+                o.Draw(spriteBatch);
             }
 
             #region Frame counter
