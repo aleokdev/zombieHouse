@@ -29,6 +29,7 @@ namespace ZombieProyect_Desktop
         public static SpriteFont font;
         public static FrameCounter fpsC = new FrameCounter();
         public static int tileSize = 16;
+        public readonly string texturePackage = "sekritDLC_CrappyTextures";
 
         public Main()
         {
@@ -63,11 +64,11 @@ namespace ZombieProyect_Desktop
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            blankTexture = Content.Load<Texture2D>("blank");
-            wallTextures = Content.Load<Texture2D>("walls-common").SplitTileset(new Point(16,16));
-            wallpapers = Content.Load<Texture2D>("wallpapers").SplitTileset(new Point(16, 16));
-            doorTextures = Content.Load<Texture2D>("doors").SplitTileset(new Point(16, 16));
-            floors = Content.Load<Texture2D>("floors").SplitTileset(new Point(16, 16));
+            blankTexture = Content.Load<Texture2D>("textures/blank");
+            wallTextures = Content.Load<Texture2D>("textures/" + texturePackage + "/walls-common").SplitTileset(new Point(16,16));
+            wallpapers = Content.Load<Texture2D>("textures/" + texturePackage + "/wallpapers").SplitTileset(new Point(16, 16));
+            doorTextures = Content.Load<Texture2D>("textures/" + texturePackage + "/doors").SplitTileset(new Point(16, 16));
+            floors = Content.Load<Texture2D>("textures/" + texturePackage + "/floors").SplitTileset(new Point(16, 16));
             string docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\rooms.xml");
             roomsDocument.Load(docPath);
             docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\furniture.xml");
