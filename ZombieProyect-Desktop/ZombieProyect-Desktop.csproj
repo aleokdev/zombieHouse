@@ -94,7 +94,6 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
-    <None Include="Content\blank.psd" />
     <None Include="Content\font.spritefont" />
   </ItemGroup>
   <ItemGroup>
