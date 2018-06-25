@@ -226,7 +226,31 @@ namespace ZombieProyect_Desktop.Classes
                     {
                         if((float)r.NextDouble()<ro.type.furniture[s].chance) //If random chance...
                         {
-                            objectMap.Add(new Furniture(new Vector2(0, 0), FurnitureType.ParseFromXML(s),ro));
+                            switch (ro.type.furniture[s].anchor)
+                            {
+                                case FurnitureAnchor.top:
+                                    while (true) {
+                                        int posX = r.Next(1, ro.roomSize.X - 1); // Random position for the furniture
+                                        if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y].type == TileType.door|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1].type == TileType.door|| tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1].type == TileType.door)
+                                        {
+                                            continue; // Door is next to furniture, repeat random process
+                                        }
+                                        else
+                                        {
+                                            objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + posX, ro.roomPos.Y + 1), FurnitureType.ParseFromXML(s), ro));
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                case FurnitureAnchor.sides:
+                                    break;
+                                case FurnitureAnchor.center:
+                                    break;
+                                case FurnitureAnchor.corners:
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
             }
