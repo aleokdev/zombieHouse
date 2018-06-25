@@ -14,6 +14,9 @@ namespace ZombieProyect_Desktop.Classes
 
         public MapObject(Vector2 pos) { this.pos = pos; }
 
-        public virtual void Draw(SpriteBatch draw) { }
+        public virtual void Draw(SpriteBatch draw)
+        {
+            draw.Draw(Main.blankTexture, new Rectangle(new Point((int)(pos.X * Main.tileSize), (int)(pos.Y * Main.tileSize)) - (Player.pos * Main.tileSize).ToPoint(), new Point(Main.tileSize)), Color.White);
+        }
     }
 }
