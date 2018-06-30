@@ -145,30 +145,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/sekritDLC_CrappyTextures/furniture/bookshelf.png
 
-#begin textures/sekritDLC_CrappyTextures/furniture/cabinet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sekritDLC_CrappyTextures/furniture/cabinet.png
-
-#begin textures/sekritDLC_CrappyTextures/furniture/cabinetOpened.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sekritDLC_CrappyTextures/furniture/cabinetOpened.png
-
 #begin textures/sekritDLC_CrappyTextures/furniture/closet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -403,4 +379,28 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:font.spritefont
+
+#begin textures/sekritDLC_CrappyTextures/furniture/kitchenCabinet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/furniture/kitchenCabinet.png
+
+#begin textures/sekritDLC_CrappyTextures/furniture/kitchenCabinetOpened.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sekritDLC_CrappyTextures/furniture/kitchenCabinetOpened.png
 
