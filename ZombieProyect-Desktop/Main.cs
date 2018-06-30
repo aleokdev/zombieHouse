@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -29,7 +30,8 @@ namespace ZombieProyect_Desktop
         public static SpriteFont font;
         public static FrameCounter fpsC = new FrameCounter();
         public static int tileSize = 16;
-        public readonly string texturePackage = "sekritDLC_CrappyTextures";
+        public static readonly string texturePackage = "sekritDLC_CrappyTextures";
+        public static ContentManager contentManager;
 
         public Main()
         {
@@ -62,6 +64,9 @@ namespace ZombieProyect_Desktop
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Assign contentManager
+            contentManager = Content;
 
             // TODO: use this.Content to load your game content here
             blankTexture = Content.Load<Texture2D>("textures/blank");
