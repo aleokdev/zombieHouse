@@ -233,7 +233,7 @@ namespace ZombieProyect_Desktop.Classes
                                         int posX = r.Next(1, ro.roomSize.X - 1); // Random position for the furniture
                                         if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y].type == TileType.door|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1].type == TileType.door|| tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1].type == TileType.door)
                                         {
-                                            continue; // Door is next to furniture, repeat random process
+                                            continue; // Furniture is next to door, repeat random process
                                         }
                                         else
                                         {
@@ -243,6 +243,36 @@ namespace ZombieProyect_Desktop.Classes
                                     }
                                     break;
                                 case FurnitureAnchor.sides:
+                                    while (true)
+                                    {
+                                        int posY = r.Next(2, ro.roomSize.Y - 1); // Random position for the furniture
+                                        if (r.Next(0, 2) == 0) // Spawn on the right or left side
+                                        {
+                                            // Left side
+                                            if (tileMap[ro.roomPos.X, ro.roomPos.Y + posY].type == TileType.door)
+                                            {
+                                                continue; // Furniture is next to door, repeat random process
+                                            }
+                                            else
+                                            {
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + 1, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Right side
+                                            if (tileMap[ro.roomPos.X+ro.roomSize.X-1, ro.roomPos.Y + posY].type == TileType.door)
+                                            {
+                                                continue; // Furniture is next to door, repeat random process
+                                            }
+                                            else
+                                            {
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + ro.roomSize.X - 2, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                break;
+                                            }
+                                        }
+                                    }
                                     break;
                                 case FurnitureAnchor.center:
                                     break;
