@@ -21,7 +21,7 @@
       <room ref="hCorridor" chance="0.4"></room>
     </relations>
     <furniture>
-      <storage ref="bookcase" anchor="top" chance="0.8"></storage>
+      <storage ref="bookshelf" anchor="top" chance="0.8"></storage>
       <decoration ref="table" anchor="center" chance="1"></decoration>
       <decoration ref="flowerPot" anchor="corners" chance="0.6"></decoration>
     </furniture>
@@ -59,7 +59,7 @@
     </relations>
     <furniture>
       <decoration ref="bed" anchor="top" chance="1"></decoration>
-      <decoration ref="bookcase" anchor="top" chance="0.7"></decoration>
+      <decoration ref="bookshelf" anchor="top" chance="0.7"></decoration>
       <decoration ref="flowerPot" anchor="sides" chance="0.4"></decoration>
     </furniture>
   </room>
