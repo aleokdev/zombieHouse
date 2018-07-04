@@ -14,17 +14,16 @@
       <item ref="cola" chance="0.65"></item>
     </items>
   </storage>
-  <storage name="bookshelf" texture="bookshelf" texture_opened="bookshelf">
+  <storage name="bookshelf" texture="bookshelf" texture_opened="bookshelf" offsetY ="-16">
     <items>
       <item ref="book" chance ="1"> </item>
       <item ref="missile_launcher" chance="0.0000001"></item> <!-- Don't ask. -->
     </items>
   </storage>
-  <decoration name="flowerPot" texture="flower"></decoration>
+  <decoration name="flowerPot" texture="flower" offsetY ="-16"></decoration>
   <decoration name="table" texture="table"></decoration>
-  <storage name="closet" texture="closet" texture_opened="closetOpened">
+  <storage name="closet" texture="closet" texture_opened="closetOpened" offsetY ="-16">
     <items>
-      
     </items>
   </storage>
 </furniture>
