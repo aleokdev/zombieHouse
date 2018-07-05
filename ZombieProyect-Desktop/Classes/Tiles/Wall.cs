@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieProyect_Desktop.Classes.Tiles
 {
-    public sealed class Wall : Tile
+    public class Wall : Tile
     {
         public Wall(int x, int y) : base(x, y) { }
         public Wall(int x, int y, Room parent) : base(x, y, parent) { }
