@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieProyect_Desktop.Classes.Tiles;
 
 namespace ZombieProyect_Desktop.Classes
 {
@@ -52,7 +53,7 @@ namespace ZombieProyect_Desktop.Classes
             {
                 for (int ix = 0; ix < size.X; ix++)
                 {
-                    tileMap[ix, iy] = new Tile(ix, iy, TileType.none);
+                    tileMap[ix, iy] = new OutsideFloor(ix, iy);
                 }
             }
 
@@ -78,7 +79,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Tile wall, RoomType type, int maxTriesForRoomCreation=50)
+        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, int maxTriesForRoomCreation=50)
         {
             return MakeAdjacentRoomFromWall(wall, type, new Point(6, 6), new Point(10, 10));
         }
@@ -89,7 +90,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Tile wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
+        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
         {
             if (wall.CheckOuterEdgeOfWall() != null)
             {
@@ -205,7 +206,7 @@ namespace ZombieProyect_Desktop.Classes
                 for (int try_ = 0; try_ < lastRoomInTree.containedWalls.Where(x => x != null).ToArray().Length; try_++)
                 {
                     //Console.WriteLine("try_ = " + try_);
-                    Tile wallInLastRoom = lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
+                    Wall wallInLastRoom = (Wall)lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
                     Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
                     if (ro != null)
                     {
@@ -231,7 +232,7 @@ namespace ZombieProyect_Desktop.Classes
                                 case FurnitureAnchor.top:
                                     while (true) {
                                         int posX = r.Next(1, ro.roomSize.X - 1); // Random position for the furniture
-                                        if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y].type == TileType.door|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1].type == TileType.door|| tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1].type == TileType.door)
+                                        if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y].GetType() == typeof(Door)|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1].GetType() == typeof(Door) || tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1].GetType() == typeof(Door))
                                         {
                                             continue; // Furniture is next to door, repeat random process
                                         }
@@ -249,7 +250,7 @@ namespace ZombieProyect_Desktop.Classes
                                         if (r.Next(0, 2) == 0) // Spawn on the right or left side
                                         {
                                             // Left side
-                                            if (tileMap[ro.roomPos.X, ro.roomPos.Y + posY].type == TileType.door)
+                                            if (tileMap[ro.roomPos.X, ro.roomPos.Y + posY].GetType() == typeof(Door))
                                             {
                                                 continue; // Furniture is next to door, repeat random process
                                             }
@@ -262,7 +263,7 @@ namespace ZombieProyect_Desktop.Classes
                                         else
                                         {
                                             // Right side
-                                            if (tileMap[ro.roomPos.X+ro.roomSize.X-1, ro.roomPos.Y + posY].type == TileType.door)
+                                            if (tileMap[ro.roomPos.X+ro.roomSize.X-1, ro.roomPos.Y + posY].GetType() == typeof(Door))
                                             {
                                                 continue; // Furniture is next to door, repeat random process
                                             }
@@ -329,7 +330,7 @@ namespace ZombieProyect_Desktop.Classes
                 return null;
             else
             {
-                tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y].type = TileType.door; // Transform any of the walls remaining into a door.
+                tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y] = (Door)tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y]; // Transform any of the walls remaining into a door.
                 r1.connections.Add(r2); // Add connections
                 r2.connections.Add(r1);
                 return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
@@ -354,12 +355,12 @@ namespace ZombieProyect_Desktop.Classes
                 {
                     if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.wall);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Wall(ix + pos.X, iy + pos.Y);
                         ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                     else
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Tile(ix + pos.X, iy + pos.Y, TileType.floor, ro);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Floor(ix + pos.X, iy + pos.Y, ro);
                         ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                 }

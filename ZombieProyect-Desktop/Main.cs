@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using ZombieProyect_Desktop.Classes;
+using ZombieProyect_Desktop.Classes.Tiles;
 
 namespace ZombieProyect_Desktop
 {
@@ -163,10 +164,10 @@ namespace ZombieProyect_Desktop
                         else
                             c = new Color((t.parentRoom.roomPos.X+1) / ((t.parentRoom.roomPos.Y+1) * 1f), (t.parentRoom.roomPos.Y+1) / ((t.parentRoom.roomPos.X+1) * 1f), 0);
                     }
-
-                    switch (t.type)
+                    
+                    switch (t)
                     {
-                        case TileType.wall:
+                        case Wall _w:
                             Texture2D tex = blankTexture;
                             switch (t.GetAccordingTexture())
                             {
@@ -224,18 +225,18 @@ namespace ZombieProyect_Desktop
 
                             spriteBatch.Draw(tex, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                             break;
-                        case TileType.door:
+                        case Door _w:
                             if (t.GetAccordingTexture() == WallTextureType.horizontal) // Door is horizontal
                                 spriteBatch.Draw(doorTextures[0, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                             if (t.GetAccordingTexture() == WallTextureType.vertical) // Door is vertical
                                 spriteBatch.Draw(doorTextures[1, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                             break;
 
-                        case TileType.floor:
+                        case Floor _w:
                             spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
                             break;
 
-                        case TileType.none:
+                        case OutsideFloor _w:
                             spriteBatch.Draw(floors[3, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
                             break;
 
