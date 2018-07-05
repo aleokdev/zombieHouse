@@ -41,7 +41,6 @@ namespace ZombieProyect_Desktop
                 PreferredBackBufferWidth = 1280
             };
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
         }
 
         /// <summary>
