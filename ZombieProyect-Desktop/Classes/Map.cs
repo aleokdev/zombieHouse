@@ -330,7 +330,7 @@ namespace ZombieProyect_Desktop.Classes
                 return null;
             else
             {
-                tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y] = tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y] as Door; // Transform any of the walls remaining into a door.
+                tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y] = (Door)tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y]; // Transform any of the walls remaining into a door.
                 r1.connections.Add(r2); // Add connections
                 r2.connections.Add(r1);
                 return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
