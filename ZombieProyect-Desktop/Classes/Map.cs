@@ -232,7 +232,7 @@ namespace ZombieProyect_Desktop.Classes
                                 case FurnitureAnchor.top:
                                     while (true) {
                                         int posX = r.Next(1, ro.roomSize.X - 1); // Random position for the furniture
-                                        if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y].GetType() == typeof(Door)|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1].GetType() == typeof(Door) || tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1].GetType() == typeof(Door))
+                                        if (tileMap[ro.roomPos.X + posX, ro.roomPos.Y]?.GetType()== typeof(Door)|| tileMap[ro.roomPos.X + posX + 1, ro.roomPos.Y+1]?.GetType() == typeof(Door) || tileMap[ro.roomPos.X + posX-1, ro.roomPos.Y+1]?.GetType() == typeof(Door))
                                         {
                                             continue; // Furniture is next to door, repeat random process
                                         }
@@ -250,7 +250,7 @@ namespace ZombieProyect_Desktop.Classes
                                         if (r.Next(0, 2) == 0) // Spawn on the right or left side
                                         {
                                             // Left side
-                                            if (tileMap[ro.roomPos.X, ro.roomPos.Y + posY].GetType() == typeof(Door))
+                                            if (tileMap[ro.roomPos.X, ro.roomPos.Y + posY]?.GetType() == typeof(Door))
                                             {
                                                 continue; // Furniture is next to door, repeat random process
                                             }
@@ -263,7 +263,7 @@ namespace ZombieProyect_Desktop.Classes
                                         else
                                         {
                                             // Right side
-                                            if (tileMap[ro.roomPos.X+ro.roomSize.X-1, ro.roomPos.Y + posY].GetType() == typeof(Door))
+                                            if (tileMap[ro.roomPos.X+ro.roomSize.X-1, ro.roomPos.Y + posY]?.GetType() == typeof(Door))
                                             {
                                                 continue; // Furniture is next to door, repeat random process
                                             }
