@@ -26,4 +26,5 @@
     <items>
     </items>
   </storage>
+  <decoration name="bed" texture="bed"></decoration>
 </furniture>
