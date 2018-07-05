@@ -4,17 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieProyect_Desktop.Classes.Tiles;
 
 namespace ZombieProyect_Desktop.Classes
 {
-    public enum TileType
-    {
-        none,
-        floor,
-        wall,
-        door,
-        blockeddoor
-    }
     public enum GridAxis
     {
         positiveX,
@@ -37,9 +30,8 @@ namespace ZombieProyect_Desktop.Classes
         all,
         unknown
     }
-    public class Tile
+    public abstract class Tile
     {
-        public TileType type;
         private Point t_pos;
         public Point Pos
         {
@@ -50,89 +42,30 @@ namespace ZombieProyect_Desktop.Classes
         }
         public Room parentRoom;
 
-        public Tile(int x, int y, TileType tileType)
+        public Tile(int x, int y)
         {
             t_pos = new Point(x, y);
-            type = tileType;
         }
-        public Tile(int x, int y, TileType tileType, Room parent)
+        public Tile(int x, int y, Room parent)
         {
             t_pos = new Point(x, y);
-            type = tileType;
             parentRoom = parent;
         }
-
-        public GridAxis? CheckOuterEdgeOfWall()
-        {
-            try
-            {
-                if ((Map.tileMap[Pos.X + 1, Pos.Y]?.type ?? TileType.none) == TileType.none)
-                    return GridAxis.positiveX;
-            }
-            catch
-            {
-                return GridAxis.positiveX;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X - 1, Pos.Y]?.type ?? TileType.none) == TileType.none)
-                    return GridAxis.negativeX;
-            }
-            catch
-            {
-                return GridAxis.negativeX;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X, Pos.Y + 1]?.type ?? TileType.none) == TileType.none)
-                    return GridAxis.positiveY;
-            }
-            catch
-            {
-                return GridAxis.positiveY;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X, Pos.Y - 1]?.type ?? TileType.none) == TileType.none)
-                    return GridAxis.negativeY;
-            }
-            catch
-            {
-                return GridAxis.negativeY;
-            }
-            return null; // Tile is floor and there are no outer edges, or wall is sorrounded by other tiles.
-        }
-
-        public bool IsCornerWall()
-        {
-            int a = 0;
-            if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.none)
-                a++;
-            if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.none)
-                a++;
-            if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.none)
-                a++;
-            if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.none)
-                a++;
-
-            if (a > 1) return true;
-            else return false;
-        }
-
+        
         public bool IsConnectedToTwoFloors()
         {
             int a = 0;
             if (!(Pos.X + 1>=Map.tileMapSize.X))
-                if (Map.tileMap[Pos.X + 1, Pos.Y].type == TileType.floor)
+                if (((Map.tileMap[Pos.X + 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
             if (!(Pos.X - 1 <= 0))
-                if (Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.floor)
+                if (((Map.tileMap[Pos.X - 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
             if (!(Pos.Y + 1 >= Map.tileMapSize.Y))
-                if (Map.tileMap[Pos.X, Pos.Y + 1].type == TileType.floor)
+                if (((Map.tileMap[Pos.X, Pos.Y + 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
             if (!(Pos.Y - 1 <= 0))
-                if (Map.tileMap[Pos.X, Pos.Y - 1].type == TileType.floor)
+                if (((Map.tileMap[Pos.X, Pos.Y - 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
 
             if (a == 2) return true;
@@ -143,19 +76,19 @@ namespace ZombieProyect_Desktop.Classes
         {
             bool a;
             if (Pos.Y - 1 < 0) a = false; // Catch if tile is outside of map
-            else a = Map.tileMap[Pos.X, Pos.Y-1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y-1].type == TileType.door; // Next left tile is wall
+            else a = ((Map.tileMap[Pos.X, Pos.Y-1].GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X, Pos.Y-1].GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool b;
             if (Pos.X + 1 >= Map.tileMapSize.X) b = false; // Catch if tile is outside of map
-            else b = Map.tileMap[Pos.X +1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X+1, Pos.Y].type == TileType.door; // Next left tile is wall
+            else b = ((Map.tileMap[Pos.X +1, Pos.Y].GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X+1, Pos.Y].GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool c;
             if (Pos.Y + 1 >= Map.tileMapSize.Y) c = false; // Catch if tile is outside of map
-            else c = Map.tileMap[Pos.X, Pos.Y+1].type == TileType.wall || Map.tileMap[Pos.X, Pos.Y+1].type == TileType.door; // Next left tile is wall
+            else c = ((Map.tileMap[Pos.X, Pos.Y+1].GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X, Pos.Y+1].GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool d;
             if (Pos.X - 1 < 0) d = false; // Catch if tile is outside of map
-            else d = Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.wall || Map.tileMap[Pos.X - 1, Pos.Y].type == TileType.door; // Next left tile is wall
+            else d = ((Map.tileMap[Pos.X - 1, Pos.Y].GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X - 1, Pos.Y].GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             if (!a && b && !c && d) // Right & Left
                 return WallTextureType.horizontal;
