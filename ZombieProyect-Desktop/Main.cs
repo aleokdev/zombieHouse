@@ -257,6 +257,7 @@ namespace ZombieProyect_Desktop
                         Room room = Map.rooms[r];
                         if (room == null) continue;
                         spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()* tileSize - Player.pos*tileSize, Color.White);
+                        spriteBatch.DrawString(font, Map.rooms[r].type.name ?? "", room.roomPos.ToVector2() * tileSize - Player.pos * tileSize+ new Vector2(20), Color.White);
                     }
                 }
             }
