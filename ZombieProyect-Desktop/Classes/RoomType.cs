@@ -38,6 +38,7 @@ namespace ZombieProyect_Desktop.Classes
 
         public RoomType(string name, int wallpaper, int floor, Dictionary<string, float> relations, Dictionary<string, FurnitureProperties> furn)
         {
+            this.name = name;
             wallpaperType = wallpaper;
             floorType = floor;
             this.relations = relations;
