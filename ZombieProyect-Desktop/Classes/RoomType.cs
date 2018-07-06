@@ -30,12 +30,13 @@ namespace ZombieProyect_Desktop.Classes
 
     public class RoomType
     {
+        public string name;
         public int floorType;
         public int wallpaperType;
         public Dictionary<string, float> relations = new Dictionary<string, float>();
         public Dictionary<string, FurnitureProperties> furniture = new Dictionary<string, FurnitureProperties>();
 
-        public RoomType(int wallpaper, int floor, Dictionary<string, float> relations, Dictionary<string, FurnitureProperties> furn)
+        public RoomType(string name, int wallpaper, int floor, Dictionary<string, float> relations, Dictionary<string, FurnitureProperties> furn)
         {
             wallpaperType = wallpaper;
             floorType = floor;
@@ -53,7 +54,7 @@ namespace ZombieProyect_Desktop.Classes
                 relations.Add(r.Attributes["ref"].Value, float.Parse(r.Attributes["chance"].Value));
             foreach (XmlNode r in node.SelectSingleNode("furniture"))
                 furn.Add(r.Attributes["ref"].Value, new FurnitureProperties((FurnitureAnchor)Enum.Parse(typeof(FurnitureAnchor), r.Attributes["anchor"].Value), float.Parse(r.Attributes["chance"].Value)));
-            return new RoomType(wallpaperType,floorType,relations, furn);
+            return new RoomType(node.Attributes["name"].Value,wallpaperType,floorType,relations, furn);
         }
 
         public static RoomType ParseFromXML(string node)
