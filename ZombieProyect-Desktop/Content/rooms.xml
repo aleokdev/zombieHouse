@@ -17,8 +17,7 @@
     <floor>1</floor>
     <relations>
       <room ref="kitchen" chance="1"></room>
-      <room ref="vCorridor" chance="0.4"></room>
-      <room ref="hCorridor" chance="0.4"></room>
+      <room ref="corridor" chance="0.8"></room>
     </relations>
     <furniture>
       <storage ref="bookshelf" anchor="top" chance="0.8"></storage>
@@ -27,24 +26,12 @@
     </furniture>
   </room>
   
-  <room name="vCorridor" minSize="2,4" maxSize="2,10">
+  <room name="corridor" minSize="2,4" maxSize="2,10">
     <wallpaper>1</wallpaper>
     <floor>1</floor>
     <relations>
       <room ref="diningRoom" chance="0.3"></room>
-      <room ref="dormitory" chance="0.3"></room>
-    </relations>
-    <furniture>
-      <decoration ref="flowerPot" anchor="sides" chance="0.9"></decoration>
-    </furniture>
-  </room>
-
-  <room name="hCorridor" minSize="4,2" maxSize="10,2">
-    <wallpaper>1</wallpaper>
-    <floor>1</floor>
-    <relations>
-      <room ref="diningRoom" chance="0.3"></room>
-      <room ref="dormitory" chance="0.3"></room>
+      <room ref="dormitory" chance="0.6"></room>
     </relations>
     <furniture>
       <decoration ref="flowerPot" anchor="sides" chance="0.9"></decoration>
