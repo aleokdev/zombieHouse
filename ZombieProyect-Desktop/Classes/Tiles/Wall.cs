@@ -13,42 +13,18 @@ namespace ZombieProyect_Desktop.Classes.Tiles
 
         public GridAxis? CheckOuterEdgeOfWall()
         {
-            try
-            {
-                if ((Map.tileMap[Pos.X + 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
-                    return GridAxis.positiveX;
-            }
-            catch
-            {
+            if ((Map.tileMapSize.X<=Pos.X+1)||(Map.tileMap[Pos.X + 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
                 return GridAxis.positiveX;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
-                    return GridAxis.negativeX;
-            }
-            catch
-            {
+
+            if ((0>Pos.X - 1)||(Map.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
                 return GridAxis.negativeX;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X, Pos.Y + 1]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
-                    return GridAxis.positiveY;
-            }
-            catch
-            {
+
+            if ((Map.tileMapSize.Y <= Pos.Y + 1) || (Map.tileMap[Pos.X, Pos.Y + 1]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
                 return GridAxis.positiveY;
-            }
-            try
-            {
-                if ((Map.tileMap[Pos.X, Pos.Y - 1]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
-                    return GridAxis.negativeY;
-            }
-            catch
-            {
+
+            if ((0 > Pos.Y - 1) || (Map.tileMap[Pos.X, Pos.Y - 1]?.GetType() ?? typeof(OutsideFloor)) == typeof(OutsideFloor))
                 return GridAxis.negativeY;
-            }
+
             return null; // Tile is floor and there are no outer edges, or wall is sorrounded by other tiles.
         }
 
