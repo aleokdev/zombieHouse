@@ -12,20 +12,6 @@ namespace ZombieProyect_Desktop.Classes
     public class FurnitureType
     {
         public string textureRef;
-        public Texture2D Texture
-        {
-            get
-            {
-                return Main.furnitureTextures[textureRef];
-            }
-        }
-        public Point TextureSize
-        {
-            get
-            {
-                return Texture.Bounds.Size;
-            }
-        }
         public FurnitureType(string textureRef)
         {
             this.textureRef = textureRef;
