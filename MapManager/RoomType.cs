@@ -45,7 +45,7 @@ namespace ZombieProyect_Desktop.Classes
             furniture = furn;
         }
 
-        public static RoomType ParseFromXML(XmlNode node)
+        public static RoomType ParseFromXML(XmlDocument doc, XmlNode node)
         {
             int wallpaperType = Int32.Parse(node.SelectSingleNode("wallpaper").InnerText);
             int floorType = Int32.Parse(node.SelectSingleNode("floor").InnerText);
@@ -58,25 +58,25 @@ namespace ZombieProyect_Desktop.Classes
             return new RoomType(node.Attributes["name"].Value,wallpaperType,floorType,relations, furn);
         }
 
-        public static RoomType ParseFromXML(string node)
+        public static RoomType ParseFromXML(XmlDocument doc, string node)
         {
-            return ParseFromXML(Main.roomsDocument.SelectSingleNode("/rooms/room[@name='"+node+"']"));
+            return ParseFromXML(doc, doc.SelectSingleNode("/rooms/room[@name='"+node+"']"));
         }
 
-        public static List<RoomType> GetAllRoomTypes()
+        public static List<RoomType> GetAllRoomTypes(XmlDocument doc)
         {
-            XmlNodeList xmlnodes=Main.roomsDocument.ChildNodes[1].ChildNodes;
+            XmlNodeList xmlnodes=doc.ChildNodes[1].ChildNodes;
             List<RoomType> types = new List<RoomType>();
             foreach(XmlNode n in xmlnodes)
             {
-                types.Add(ParseFromXML(n));
+                types.Add(ParseFromXML(doc, n));
             }
             return types;
         }
 
-        public static RoomType GetRandomRoomType()
+        public static RoomType GetRandomRoomType(XmlDocument doc)
         {
-            List<RoomType> rooms = GetAllRoomTypes();
+            List<RoomType> rooms = GetAllRoomTypes(doc);
             return rooms[Map.r.Next(0, rooms.Count)];
         }
     }
