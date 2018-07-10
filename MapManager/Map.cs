@@ -75,7 +75,7 @@ namespace ZombieProyect_Desktop.Classes
             {
                 for (int ix = 0; ix < size.X; ix++)
                 {
-                    tileMap[ix, iy] = new OutsideFloor(ix, iy);
+                    tileMap[ix, iy] = new OutsideFloor(ix, iy, this);
                 }
             }
 
