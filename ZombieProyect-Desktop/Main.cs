@@ -111,11 +111,11 @@ namespace ZombieProyect_Desktop
         {
             foreach (FurnitureType t in FurnitureType.DecorationType.GetAllDecorationTypes(furnitureDocument))
             {
-                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture")));
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture", t.textureRef)));
             }
             foreach (FurnitureType t in FurnitureType.StorageType.GetAllStorageTypes(furnitureDocument))
             {
-                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture")));
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture", t.textureRef)));
             }
         }
 
@@ -270,7 +270,14 @@ namespace ZombieProyect_Desktop
 
             foreach(MapObject o in mainMap.objectMap)
             {
-                spriteBatch.Draw(blankTexture, new Rectangle((o.pos*tileSize-Player.pos).ToPoint(), new Point(tileSize)), Color.White);
+                switch (o)
+                {
+                    case Furniture f:
+                        spriteBatch.Draw(furnitureTextures[f.type.textureRef], new Rectangle(((o.pos  - Player.pos) * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             #region Frame counter
