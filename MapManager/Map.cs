@@ -353,7 +353,7 @@ namespace ZombieProyect_Desktop.Classes
             else
             {
                 Point w_pos = new Point(walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y);
-                tileMap[w_pos.X, w_pos.Y] = new Door(w_pos.X, w_pos.Y); // Transform any of the walls remaining into a door.
+                tileMap[w_pos.X, w_pos.Y] = new Door(w_pos.X, w_pos.Y, this); // Transform any of the walls remaining into a door.
                 r1.connections.Add(r2); // Add connections
                 r2.connections.Add(r1);
                 return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
@@ -378,12 +378,12 @@ namespace ZombieProyect_Desktop.Classes
                 {
                     if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Wall(ix + pos.X, iy + pos.Y);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Wall(ix + pos.X, iy + pos.Y, this);
                         ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                     else
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Floor(ix + pos.X, iy + pos.Y, ro);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Floor(ix + pos.X, iy + pos.Y, ro, this);
                         ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                 }
