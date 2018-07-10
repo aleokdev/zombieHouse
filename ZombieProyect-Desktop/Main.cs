@@ -83,6 +83,7 @@ namespace ZombieProyect_Desktop
             docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\furniture.xml");
             furnitureDocument.Load(docPath);
             font = Content.Load<SpriteFont>("font");
+            LoadFurnitureTextures();
 
             // Initialize map
             Map currentMap=new Map(roomsDocument, furnitureDocument);
@@ -104,6 +105,18 @@ namespace ZombieProyect_Desktop
 
             Console.WriteLine("Placing furniture.");
             mainMap.GenerateFurniture();
+        }
+
+        void LoadFurnitureTextures()
+        {
+            foreach (FurnitureType t in FurnitureType.DecorationType.GetAllDecorationTypes(furnitureDocument))
+            {
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture")));
+            }
+            foreach (FurnitureType t in FurnitureType.StorageType.GetAllStorageTypes(furnitureDocument))
+            {
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture")));
+            }
         }
 
         /// <summary>
