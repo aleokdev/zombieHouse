@@ -260,7 +260,7 @@ namespace ZombieProyect_Desktop.Classes
                                         }
                                         else
                                         {
-                                            objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + posX, ro.roomPos.Y + 1), FurnitureType.ParseFromXML(s), ro));
+                                            objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + posX, ro.roomPos.Y + 1), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                             break;
                                         }
                                     }
@@ -278,7 +278,7 @@ namespace ZombieProyect_Desktop.Classes
                                             }
                                             else
                                             {
-                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + 1, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + 1, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                                 break;
                                             }
                                         }
@@ -291,7 +291,7 @@ namespace ZombieProyect_Desktop.Classes
                                             }
                                             else
                                             {
-                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + ro.roomSize.X - 2, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + ro.roomSize.X - 2, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                                 break;
                                             }
                                         }
