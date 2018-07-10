@@ -17,18 +17,6 @@ namespace ZombieProyect_Desktop.Classes
         {
             this.type = type;
             room = r;
-            LoadContent();
-        }
-
-        public override void Draw(SpriteBatch draw)
-        {
-            draw.Draw(type.Texture ?? Main.blankTexture, new Rectangle(new Point((int)(pos.X * Main.tileSize), (int)(pos.Y * Main.tileSize)) - (Player.pos * Main.tileSize).ToPoint(), new Point(Main.tileSize)), Color.White);
-        }
-
-        public override void LoadContent()
-        {
-            if(!Main.furnitureTextures.ContainsKey(type.textureRef))
-                Main.furnitureTextures.Add(type.textureRef, Main.contentManager.Load<Texture2D>("textures/" + Main.texturePackage + "/furniture/" + type.textureRef));
         }
     }
 }
