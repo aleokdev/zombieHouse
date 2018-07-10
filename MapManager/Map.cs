@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieProyect_Desktop.Classes.Tiles;
+using System.Xml;
 
 namespace ZombieProyect_Desktop.Classes
 {
@@ -39,6 +40,27 @@ namespace ZombieProyect_Desktop.Classes
         /// The random class of the Map.
         /// </summary>
         public static Random r = new Random();
+
+        /// <summary>
+        /// The document that holds all the roomTypes of this map.
+        /// </summary>
+        public XmlDocument roomsDocument;
+
+        /// <summary>
+        /// The document that holds all the furnitureTypes this map.
+        /// </summary>
+        public XmlDocument furnitureDocument;
+
+        /// <summary>
+        /// Construct a new map. Note that the map created is NOT initialized.
+        /// </summary>
+        /// <param name="r">The xmlDocument that holds all the roomTypes of this map.</param>
+        /// <param name="f">The xmlDocument that holds all the furnitureTypes this map.</param>
+        public Map(XmlDocument r, XmlDocument f)
+        {
+            roomsDocument = r;
+            furnitureDocument = f;
+        }
 
         /// <summary>
         /// Initialize the map with a certain size.
@@ -149,7 +171,7 @@ namespace ZombieProyect_Desktop.Classes
 
             List<Room> roomTree = new List<Room>
             {
-                MakeStartingRoom(RoomType.GetRandomRoomType())
+                MakeStartingRoom(RoomType.GetRandomRoomType(roomsDocument))
             };
 
             for (int c = 1; c < complexity; c++)
@@ -207,7 +229,7 @@ namespace ZombieProyect_Desktop.Classes
                 {
                     //Console.WriteLine("try_ = " + try_);
                     Wall wallInLastRoom = (Wall)lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
-                    Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
+                    Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(roomsDocument, lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
                     if (ro != null)
                     {
                         numberOfRooms++;
