@@ -8,32 +8,32 @@ using ZombieProyect_Desktop.Classes.Tiles;
 
 namespace ZombieProyect_Desktop.Classes
 {
-    public static class Map
+    public class Map
     {
         /// <summary>
         /// Contains all tiles of the map.
         /// </summary>
-        public static Tile[,] tileMap;
+        public Tile[,] tileMap;
 
         /// <summary>
         /// Contains all objects of the map.
         /// </summary>
-        public static List<MapObject> objectMap = new List<MapObject>();
+        public List<MapObject> objectMap = new List<MapObject>();
 
         /// <summary>
         /// Contains all rooms of the map.
         /// </summary>
-        public static Room[] rooms;
+        public Room[] rooms;
 
         /// <summary>
         /// The last room index of the rooms array.
         /// </summary>
-        public static int lastRoom;
+        public int lastRoom;
 
         /// <summary>
         /// The size of the tileMap.
         /// </summary>
-        public static Point tileMapSize;
+        public Point tileMapSize;
 
         /// <summary>
         /// The random class of the Map.
@@ -44,7 +44,7 @@ namespace ZombieProyect_Desktop.Classes
         /// Initialize the map with a certain size.
         /// </summary>
         /// <param name="size">The size of the tileMap.</param>
-        public static void InitializeMap(Point size)
+        public void InitializeMap(Point size)
         {
             // Initialize tiles
             tileMapSize = size;
@@ -67,7 +67,7 @@ namespace ZombieProyect_Desktop.Classes
         /// </summary>
         /// <param name="type">The RoomType of the room.</param>
         /// <returns></returns>
-        public static Room MakeStartingRoom(RoomType type)
+        public Room MakeStartingRoom(RoomType type)
         {
             Point roomSize = new Point(r.Next(6, 10), r.Next(6, 10));
             return GenerateRoom(new Point((tileMapSize.X / 2) - (roomSize.X / 2), (tileMapSize.Y / 2) - (roomSize.Y / 2)), roomSize, type);
@@ -79,7 +79,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, int maxTriesForRoomCreation=50)
+        public Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, int maxTriesForRoomCreation=50)
         {
             return MakeAdjacentRoomFromWall(wall, type, new Point(6, 6), new Point(10, 10));
         }
@@ -90,7 +90,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
+        public Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
         {
             if (wall.CheckOuterEdgeOfWall() != null)
             {
@@ -139,7 +139,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="complexity">How many rooms can be in one branch.</param>
         /// <param name="numberOfBranches">The number of times the rooms have branched out.</param>
         /// <param name="numberOfRooms">The number of rooms the algorithm has generated.</param>
-        public static void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
+        public void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
         {
             InitializeMap(new Point(complexity*4, complexity * 4));
             Console.WriteLine("Generating " + (complexity * 4) + "x" + (complexity * 4) + "t " + complexity + "c house.");
@@ -218,7 +218,7 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
         
-        public static void GenerateFurniture()
+        public void GenerateFurniture()
         {
             foreach(Room ro in rooms)
             {
@@ -287,7 +287,7 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
 
-        public static void PlaceDoorsBetweenAllRooms()
+        public void PlaceDoorsBetweenAllRooms()
         {
             foreach(Room r in rooms)
             {
@@ -305,7 +305,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="r1">A room.</param>
         /// <param name="r2">Another adjacent room.</param>
         /// <returns>The common walls.</returns>
-        public static Tile[] GetCommonWalls(Room r1, Room r2)
+        public Tile[] GetCommonWalls(Room r1, Room r2)
         {
             /*Because of the adjacentRoom algorithm, old walls from one room are removed when the new adjacent second room is placed.      *
              * So we can detect walls in common by comparing the walls one room SHOULD have which the others that the other room HAVE.     *
@@ -321,7 +321,7 @@ namespace ZombieProyect_Desktop.Classes
         /// </summary>
         /// <param name="r1">A room.</param>
         /// <param name="r2">Another adjacent room.</param>
-        public static Tile PlaceDoorBetweenRooms(Room r1, Room r2)
+        public Tile PlaceDoorBetweenRooms(Room r1, Room r2)
         {
             Tile[] walls = GetCommonWalls(r1, r2); // Get common walls.
             walls = walls.Where(x => x != null).ToArray(); // Remove null elements.
@@ -344,7 +344,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="pos">The position of the room.</param>
         /// <param name="size">The size of the room.</param>
         /// <returns>The room made.</returns>
-        public static Room GenerateRoom(Point pos, Point size, RoomType type)
+        public Room GenerateRoom(Point pos, Point size, RoomType type)
         {
             Room ro = new Room(pos, size, type);
 
