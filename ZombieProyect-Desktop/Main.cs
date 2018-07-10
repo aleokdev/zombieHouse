@@ -257,7 +257,7 @@ namespace ZombieProyect_Desktop
 
             foreach(MapObject o in mainMap.objectMap)
             {
-                spriteBatch.Draw(Main.blankTexture, new Rectangle(o.pos.ToPoint(), new Point(Main.tileSize)), Color.White);
+                spriteBatch.Draw(blankTexture, new Rectangle((o.pos*tileSize-Player.pos).ToPoint(), new Point(tileSize)), Color.White);
             }
 
             #region Frame counter
