@@ -12,32 +12,18 @@ namespace ZombieProyect_Desktop.Classes
     public class FurnitureType
     {
         public string textureRef;
-        public Texture2D Texture
-        {
-            get
-            {
-                return Main.furnitureTextures[textureRef];
-            }
-        }
-        public Point TextureSize
-        {
-            get
-            {
-                return Texture.Bounds.Size;
-            }
-        }
         public FurnitureType(string textureRef)
         {
             this.textureRef = textureRef;
         }
 
-        public static FurnitureType ParseFromXML(string node)
+        public static FurnitureType ParseFromXML(XmlDocument doc, string node)
         {
-            var x = Main.furnitureDocument.SelectSingleNode("/furniture/decoration[@name='" + node + "']")?.Name ?? Main.furnitureDocument.SelectSingleNode("/furniture/storage[@name='" + node + "']").Name;
+            var x = doc.SelectSingleNode("/furniture/decoration[@name='" + node + "']")?.Name ?? doc.SelectSingleNode("/furniture/storage[@name='" + node + "']").Name;
             if (x=="storage")
-                return StorageType.ParseFromXML(node);
+                return StorageType.ParseFromXML(doc, node);
             else if (x == "decoration")
-                return DecorationType.ParseFromXML(node);
+                return DecorationType.ParseFromXML(doc, node);
             return null;
         }
 
@@ -53,15 +39,15 @@ namespace ZombieProyect_Desktop.Classes
                 return new DecorationType(_textureRef);
             }
 
-            public new static DecorationType ParseFromXML(string node)
+            public new static DecorationType ParseFromXML(XmlDocument doc, string node)
             {
-                return ParseFromXML(Main.furnitureDocument.SelectSingleNode("/furniture/decoration[@name='" + node + "']"));
+                return ParseFromXML(doc.SelectSingleNode("/furniture/decoration[@name='" + node + "']"));
             }
 
-            public static List<DecorationType> GetAllDecorationTypes()
+            public static List<DecorationType> GetAllDecorationTypes(XmlDocument doc)
             {
                 List<DecorationType> types = new List<DecorationType>();
-                foreach (XmlNode n in Main.furnitureDocument.SelectNodes("/furniture/decoration"))
+                foreach (XmlNode n in doc.SelectNodes("/furniture/decoration"))
                 {
                     types.Add(ParseFromXML(n));
                 }
@@ -84,15 +70,15 @@ namespace ZombieProyect_Desktop.Classes
                 return new StorageType(_textureRef, _oTextureRef);
             }
 
-            public new static StorageType ParseFromXML(string node)
+            public new static StorageType ParseFromXML(XmlDocument doc, string node)
             {
-                return ParseFromXML(Main.furnitureDocument.SelectSingleNode("/furniture/storage[@name='" + node + "']"));
+                return ParseFromXML(doc.SelectSingleNode("/furniture/storage[@name='" + node + "']"));
             }
 
-            public static List<StorageType> GetAllStorageTypes()
+            public static List<StorageType> GetAllStorageTypes(XmlDocument doc)
             {
                 List<StorageType> types = new List<StorageType>();
-                foreach (XmlNode n in Main.furnitureDocument.SelectNodes("/furniture/storage"))
+                foreach (XmlNode n in doc.SelectNodes("/furniture/storage"))
                 {
                     types.Add(ParseFromXML(n));
                 }

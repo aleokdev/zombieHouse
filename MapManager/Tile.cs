@@ -41,31 +41,34 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
         public Room parentRoom;
+        public Map parentMap;
 
-        public Tile(int x, int y)
+        public Tile(int x, int y, Map parentMap)
         {
             t_pos = new Point(x, y);
+            this.parentMap = parentMap;
         }
-        public Tile(int x, int y, Room parent)
+        public Tile(int x, int y, Room parentRoom, Map parentMap)
         {
             t_pos = new Point(x, y);
-            parentRoom = parent;
+            this.parentRoom = parentRoom;
+            this.parentMap = parentMap;
         }
         
         public bool IsConnectedToTwoFloors()
         {
             int a = 0;
-            if (!(Pos.X + 1>=Map.tileMapSize.X))
-                if (((Map.tileMap[Pos.X + 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
+            if (!(Pos.X + 1>= parentMap.tileMapSize.X))
+                if (((parentMap.tileMap[Pos.X + 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
             if (!(Pos.X - 1 <= 0))
-                if (((Map.tileMap[Pos.X - 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
+                if (((parentMap.tileMap[Pos.X - 1, Pos.Y]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
-            if (!(Pos.Y + 1 >= Map.tileMapSize.Y))
-                if (((Map.tileMap[Pos.X, Pos.Y + 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
+            if (!(Pos.Y + 1 >= parentMap.tileMapSize.Y))
+                if (((parentMap.tileMap[Pos.X, Pos.Y + 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
             if (!(Pos.Y - 1 <= 0))
-                if (((Map.tileMap[Pos.X, Pos.Y - 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
+                if (((parentMap.tileMap[Pos.X, Pos.Y - 1]?.GetType()) ?? typeof(OutsideFloor)) == typeof(Floor))
                     a++;
 
             if (a == 2) return true;
@@ -76,19 +79,19 @@ namespace ZombieProyect_Desktop.Classes
         {
             bool a;
             if (Pos.Y - 1 < 0) a = false; // Catch if tile is outside of map
-            else a = ((Map.tileMap[Pos.X, Pos.Y-1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X, Pos.Y-1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
+            else a = ((parentMap.tileMap[Pos.X, Pos.Y-1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((parentMap.tileMap[Pos.X, Pos.Y-1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool b;
-            if (Pos.X + 1 >= Map.tileMapSize.X) b = false; // Catch if tile is outside of map
-            else b = ((Map.tileMap[Pos.X +1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X+1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
+            if (Pos.X + 1 >= parentMap.tileMapSize.X) b = false; // Catch if tile is outside of map
+            else b = ((parentMap.tileMap[Pos.X +1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((parentMap.tileMap[Pos.X+1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool c;
-            if (Pos.Y + 1 >= Map.tileMapSize.Y) c = false; // Catch if tile is outside of map
-            else c = ((Map.tileMap[Pos.X, Pos.Y+1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X, Pos.Y+1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
+            if (Pos.Y + 1 >= parentMap.tileMapSize.Y) c = false; // Catch if tile is outside of map
+            else c = ((parentMap.tileMap[Pos.X, Pos.Y+1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((parentMap.tileMap[Pos.X, Pos.Y+1]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             bool d;
             if (Pos.X - 1 < 0) d = false; // Catch if tile is outside of map
-            else d = ((Map.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((Map.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
+            else d = ((parentMap.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Wall)) || ((parentMap.tileMap[Pos.X - 1, Pos.Y]?.GetType() ?? typeof(OutsideFloor)) == typeof(Door)); // Next left tile is wall
             
             if (!a && b && !c && d) // Right & Left
                 return WallTextureType.horizontal;

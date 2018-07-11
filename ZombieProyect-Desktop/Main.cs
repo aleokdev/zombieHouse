@@ -33,6 +33,7 @@ namespace ZombieProyect_Desktop
         public static int tileSize = 16;
         public static readonly string texturePackage = "sekritDLC_CrappyTextures";
         public static ContentManager contentManager;
+        public static Map mainMap;
 
         public Main()
         {
@@ -70,8 +71,8 @@ namespace ZombieProyect_Desktop
 
             // Assign contentManager
             contentManager = Content;
-
-            // TODO: use this.Content to load your game content here
+            
+            // Load content
             blankTexture = Content.Load<Texture2D>("textures/blank");
             wallTextures = Content.Load<Texture2D>("textures/" + texturePackage + "/walls-common").SplitTileset(new Point(16,16));
             wallpapers = Content.Load<Texture2D>("textures/" + texturePackage + "/wallpapers").SplitTileset(new Point(16, 16));
@@ -82,35 +83,40 @@ namespace ZombieProyect_Desktop
             docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\furniture.xml");
             furnitureDocument.Load(docPath);
             font = Content.Load<SpriteFont>("font");
-            
-            RoomType.GetAllRoomTypes();
+            LoadFurnitureTextures();
 
-            Tile[,] bestTileMap=new Tile[1,1];
-            Room[] bestRooms=new Room[1];
-            int bestLastRoom=0;
+            // Initialize map
+            Map currentMap=new Map(roomsDocument, furnitureDocument);
             int bestScore=0;
             Console.WriteLine("Generating houses.");
             for (int h = 0; h < 25; h++)
             {
                 Console.WriteLine(h / 25f * 100 + "%; h = " + h);
-                Map.GenerateHouse(15, out int currentBranches, out int currentRooms);
+                currentMap.GenerateHouse(15, out int currentBranches, out int currentRooms);
                 if (currentBranches + currentRooms > bestScore)
                 {
-                    bestTileMap = Map.tileMap;
-                    bestRooms = Map.rooms;
-                    bestLastRoom = Map.lastRoom;
+                    mainMap = currentMap; // Asign the generated map to the main variable
                     bestScore = currentRooms * currentBranches;
                 }
             }
-            Map.tileMap = bestTileMap;
-            Map.rooms = bestRooms;
-            Map.lastRoom = bestLastRoom;
 
             Console.WriteLine("Placing doors.");
-            Map.PlaceDoorsBetweenAllRooms();
+            mainMap.PlaceDoorsBetweenAllRooms();
 
             Console.WriteLine("Placing furniture.");
-            Map.GenerateFurniture();
+            mainMap.GenerateFurniture();
+        }
+
+        void LoadFurnitureTextures()
+        {
+            foreach (FurnitureType t in FurnitureType.DecorationType.GetAllDecorationTypes(furnitureDocument))
+            {
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture", t.textureRef)));
+            }
+            foreach (FurnitureType t in FurnitureType.StorageType.GetAllStorageTypes(furnitureDocument))
+            {
+                furnitureTextures.Add(t.textureRef, Content.Load<Texture2D>(Path.Combine("textures", texturePackage, "furniture", t.textureRef)));
+            }
         }
 
         /// <summary>
@@ -154,7 +160,7 @@ namespace ZombieProyect_Desktop
             bool roomView = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Space)) roomView = true;
             
-            foreach (Tile t in Map.tileMap)
+            foreach (Tile t in mainMap.tileMap)
             {
                 Color c = Color.White;
                 if (t != null)
@@ -185,7 +191,7 @@ namespace ZombieProyect_Desktop
                                     case WallTextureType.horizontal:
                                         tex = wallTextures[1, 0];
                                         // Set wallpaper
-                                        Texture2D wallpaper = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1].parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                        Texture2D wallpaper = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1].parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
                                         spriteBatch.Draw(wallpaper, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.vertical:
@@ -200,13 +206,13 @@ namespace ZombieProyect_Desktop
                                     case WallTextureType.righttopcorner:
                                         tex = wallTextures[0, 2];
                                         // Set wallpaper
-                                        Texture2D wallp = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                        Texture2D wallp = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
                                         spriteBatch.Draw(wallp, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.lefttopcorner:
                                         tex = wallTextures[1, 2];
                                         // Set wallpaper
-                                        Texture2D wallpa = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                        Texture2D wallpa = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
                                         spriteBatch.Draw(wallpa, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.allbutupjoint:
@@ -218,7 +224,7 @@ namespace ZombieProyect_Desktop
                                     case WallTextureType.allbutbottomjoint:
                                         tex = wallTextures[2, 0];
                                         // Set wallpaper
-                                        Texture2D wallpap = wallpapers[Map.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
+                                        Texture2D wallpap = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
                                         spriteBatch.Draw(wallpap, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.allbutleftjoint:
@@ -252,19 +258,26 @@ namespace ZombieProyect_Desktop
 
                 if (roomView)
                 {
-                    for (int r = 0; r < Map.rooms.Length; r++)
+                    for (int r = 0; r < mainMap.rooms.Length; r++)
                     {
-                        Room room = Map.rooms[r];
+                        Room room = mainMap.rooms[r];
                         if (room == null) continue;
                         spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()* tileSize - Player.pos*tileSize, Color.White);
-                        spriteBatch.DrawString(font, Map.rooms[r].type.name ?? "", room.roomPos.ToVector2() * tileSize - Player.pos * tileSize+ new Vector2(20), Color.White);
+                        spriteBatch.DrawString(font, mainMap.rooms[r].type.name ?? "", room.roomPos.ToVector2() * tileSize - Player.pos * tileSize+ new Vector2(20), Color.White);
                     }
                 }
             }
 
-            foreach(MapObject o in Map.objectMap)
+            foreach(MapObject o in mainMap.objectMap)
             {
-                o.Draw(spriteBatch);
+                switch (o)
+                {
+                    case Furniture f:
+                        spriteBatch.Draw(furnitureTextures[f.type.textureRef], new Rectangle(((o.pos  - Player.pos) * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             #region Frame counter

@@ -5,35 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieProyect_Desktop.Classes.Tiles;
+using System.Xml;
 
 namespace ZombieProyect_Desktop.Classes
 {
-    public static class Map
+    public class Map
     {
         /// <summary>
         /// Contains all tiles of the map.
         /// </summary>
-        public static Tile[,] tileMap;
+        public Tile[,] tileMap;
 
         /// <summary>
         /// Contains all objects of the map.
         /// </summary>
-        public static List<MapObject> objectMap = new List<MapObject>();
+        public List<MapObject> objectMap = new List<MapObject>();
 
         /// <summary>
         /// Contains all rooms of the map.
         /// </summary>
-        public static Room[] rooms;
+        public Room[] rooms;
 
         /// <summary>
         /// The last room index of the rooms array.
         /// </summary>
-        public static int lastRoom;
+        public int lastRoom;
 
         /// <summary>
         /// The size of the tileMap.
         /// </summary>
-        public static Point tileMapSize;
+        public Point tileMapSize;
 
         /// <summary>
         /// The random class of the Map.
@@ -41,10 +42,31 @@ namespace ZombieProyect_Desktop.Classes
         public static Random r = new Random();
 
         /// <summary>
+        /// The document that holds all the roomTypes of this map.
+        /// </summary>
+        public XmlDocument roomsDocument;
+
+        /// <summary>
+        /// The document that holds all the furnitureTypes this map.
+        /// </summary>
+        public XmlDocument furnitureDocument;
+
+        /// <summary>
+        /// Construct a new map. Note that the map created is NOT initialized.
+        /// </summary>
+        /// <param name="r">The xmlDocument that holds all the roomTypes of this map.</param>
+        /// <param name="f">The xmlDocument that holds all the furnitureTypes this map.</param>
+        public Map(XmlDocument r, XmlDocument f)
+        {
+            roomsDocument = r;
+            furnitureDocument = f;
+        }
+
+        /// <summary>
         /// Initialize the map with a certain size.
         /// </summary>
         /// <param name="size">The size of the tileMap.</param>
-        public static void InitializeMap(Point size)
+        public void InitializeMap(Point size)
         {
             // Initialize tiles
             tileMapSize = size;
@@ -53,7 +75,7 @@ namespace ZombieProyect_Desktop.Classes
             {
                 for (int ix = 0; ix < size.X; ix++)
                 {
-                    tileMap[ix, iy] = new OutsideFloor(ix, iy);
+                    tileMap[ix, iy] = new OutsideFloor(ix, iy, this);
                 }
             }
 
@@ -67,7 +89,7 @@ namespace ZombieProyect_Desktop.Classes
         /// </summary>
         /// <param name="type">The RoomType of the room.</param>
         /// <returns></returns>
-        public static Room MakeStartingRoom(RoomType type)
+        public Room MakeStartingRoom(RoomType type)
         {
             Point roomSize = new Point(r.Next(6, 10), r.Next(6, 10));
             return GenerateRoom(new Point((tileMapSize.X / 2) - (roomSize.X / 2), (tileMapSize.Y / 2) - (roomSize.Y / 2)), roomSize, type);
@@ -79,7 +101,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, int maxTriesForRoomCreation=50)
+        public Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, int maxTriesForRoomCreation=50)
         {
             return MakeAdjacentRoomFromWall(wall, type, new Point(6, 6), new Point(10, 10));
         }
@@ -90,7 +112,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="wall"></param>
         /// <param name="maxTriesForRoomCreation"></param>
         /// <returns>The room placed or null.</returns>
-        public static Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
+        public Room MakeAdjacentRoomFromWall(Wall wall, RoomType type, Point minSize, Point maxSize, int maxTriesForRoomCreation = 50)
         {
             if (wall.CheckOuterEdgeOfWall() != null)
             {
@@ -139,7 +161,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="complexity">How many rooms can be in one branch.</param>
         /// <param name="numberOfBranches">The number of times the rooms have branched out.</param>
         /// <param name="numberOfRooms">The number of rooms the algorithm has generated.</param>
-        public static void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
+        public void GenerateHouse(int complexity, out int numberOfBranches, out int numberOfRooms)
         {
             InitializeMap(new Point(complexity*4, complexity * 4));
             Console.WriteLine("Generating " + (complexity * 4) + "x" + (complexity * 4) + "t " + complexity + "c house.");
@@ -149,7 +171,7 @@ namespace ZombieProyect_Desktop.Classes
 
             List<Room> roomTree = new List<Room>
             {
-                MakeStartingRoom(RoomType.GetRandomRoomType())
+                MakeStartingRoom(RoomType.GetRandomRoomType(roomsDocument))
             };
 
             for (int c = 1; c < complexity; c++)
@@ -207,7 +229,7 @@ namespace ZombieProyect_Desktop.Classes
                 {
                     //Console.WriteLine("try_ = " + try_);
                     Wall wallInLastRoom = (Wall)lastRoomInTree.containedWalls.Where(x => x != null).ToArray()[try_];
-                    Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
+                    Room ro = MakeAdjacentRoomFromWall(wallInLastRoom, RoomType.ParseFromXML(roomsDocument, lastRoomInTree.type.relations.Keys.ElementAt(r.Next(0, lastRoomInTree.type.relations.Count()-1))));
                     if (ro != null)
                     {
                         numberOfRooms++;
@@ -218,7 +240,7 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
         
-        public static void GenerateFurniture()
+        public void GenerateFurniture()
         {
             foreach(Room ro in rooms)
             {
@@ -238,7 +260,7 @@ namespace ZombieProyect_Desktop.Classes
                                         }
                                         else
                                         {
-                                            objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + posX, ro.roomPos.Y + 1), FurnitureType.ParseFromXML(s), ro));
+                                            objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + posX, ro.roomPos.Y + 1), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                             break;
                                         }
                                     }
@@ -256,7 +278,7 @@ namespace ZombieProyect_Desktop.Classes
                                             }
                                             else
                                             {
-                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + 1, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + 1, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                                 break;
                                             }
                                         }
@@ -269,7 +291,7 @@ namespace ZombieProyect_Desktop.Classes
                                             }
                                             else
                                             {
-                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + ro.roomSize.X - 2, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(s), ro));
+                                                objectMap.Add(new Furniture(new Vector2(ro.roomPos.X + ro.roomSize.X - 2, ro.roomPos.Y + posY), FurnitureType.ParseFromXML(furnitureDocument, s), ro));
                                                 break;
                                             }
                                         }
@@ -287,7 +309,7 @@ namespace ZombieProyect_Desktop.Classes
             }
         }
 
-        public static void PlaceDoorsBetweenAllRooms()
+        public void PlaceDoorsBetweenAllRooms()
         {
             foreach(Room r in rooms)
             {
@@ -305,7 +327,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="r1">A room.</param>
         /// <param name="r2">Another adjacent room.</param>
         /// <returns>The common walls.</returns>
-        public static Tile[] GetCommonWalls(Room r1, Room r2)
+        public Tile[] GetCommonWalls(Room r1, Room r2)
         {
             /*Because of the adjacentRoom algorithm, old walls from one room are removed when the new adjacent second room is placed.      *
              * So we can detect walls in common by comparing the walls one room SHOULD have which the others that the other room HAVE.     *
@@ -321,7 +343,7 @@ namespace ZombieProyect_Desktop.Classes
         /// </summary>
         /// <param name="r1">A room.</param>
         /// <param name="r2">Another adjacent room.</param>
-        public static Tile PlaceDoorBetweenRooms(Room r1, Room r2)
+        public Tile PlaceDoorBetweenRooms(Room r1, Room r2)
         {
             Tile[] walls = GetCommonWalls(r1, r2); // Get common walls.
             walls = walls.Where(x => x != null).ToArray(); // Remove null elements.
@@ -331,7 +353,7 @@ namespace ZombieProyect_Desktop.Classes
             else
             {
                 Point w_pos = new Point(walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y);
-                tileMap[w_pos.X, w_pos.Y] = new Door(w_pos.X, w_pos.Y); // Transform any of the walls remaining into a door.
+                tileMap[w_pos.X, w_pos.Y] = new Door(w_pos.X, w_pos.Y, this); // Transform any of the walls remaining into a door.
                 r1.connections.Add(r2); // Add connections
                 r2.connections.Add(r1);
                 return tileMap[walls[r.Next(0, walls.Length - 1)].Pos.X, walls[r.Next(0, walls.Length - 1)].Pos.Y];
@@ -344,7 +366,7 @@ namespace ZombieProyect_Desktop.Classes
         /// <param name="pos">The position of the room.</param>
         /// <param name="size">The size of the room.</param>
         /// <returns>The room made.</returns>
-        public static Room GenerateRoom(Point pos, Point size, RoomType type)
+        public Room GenerateRoom(Point pos, Point size, RoomType type)
         {
             Room ro = new Room(pos, size, type);
 
@@ -356,12 +378,12 @@ namespace ZombieProyect_Desktop.Classes
                 {
                     if (iy == 0 || iy == size.Y - 1 || ix == 0 || ix == size.X - 1) // Tile is border
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Wall(ix + pos.X, iy + pos.Y);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Wall(ix + pos.X, iy + pos.Y, this);
                         ro.containedWalls[ro.containedWalls.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                     else
                     {
-                        tileMap[ix + pos.X, iy + pos.Y] = new Floor(ix + pos.X, iy + pos.Y, ro);
+                        tileMap[ix + pos.X, iy + pos.Y] = new Floor(ix + pos.X, iy + pos.Y, ro, this);
                         ro.containedFloor[ro.containedFloor.Count(s => s != null)] = tileMap[ix + pos.X, iy + pos.Y];
                     }
                 }
