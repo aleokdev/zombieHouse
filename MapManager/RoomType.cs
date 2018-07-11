@@ -74,10 +74,15 @@ namespace ZombieProyect_Desktop.Classes
             return types;
         }
 
-        public static RoomType GetRandomRoomType(XmlDocument doc)
+        public static RoomType GetRandomRoomType(XmlDocument doc, int mode = 0)
         {
             List<RoomType> rooms = GetAllRoomTypes(doc);
-            return rooms[Map.r.Next(0, rooms.Count)];
+            RoomType result = rooms[Map.r.Next(0, rooms.Count)];
+            while (result.relations.Count == 0 && mode == 1)
+            {
+                result = rooms[Map.r.Next(0, rooms.Count)];
+            }
+            return result;
         }
     }
 }
