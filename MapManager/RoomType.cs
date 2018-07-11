@@ -74,10 +74,25 @@ namespace ZombieProyect_Desktop.Classes
             return types;
         }
 
-        public static RoomType GetRandomRoomType(XmlDocument doc)
+        /// <summary>
+        /// Obtains a random RoomType from the given document.
+        /// </summary>
+        /// <param name="doc">The document to use.</param>
+        /// <param name="withRelations">Specify whether to check relations or not. If true, rooms without any relations will not be returned.</param>
+        /// <returns></returns>
+        public static RoomType GetRandomRoomType(XmlDocument doc, bool withRelations = false)
         {
             List<RoomType> rooms = GetAllRoomTypes(doc);
-            return rooms[Map.r.Next(0, rooms.Count)];
+            RoomType result;
+            if (withRelations)
+            {
+                List<RoomType> relationRooms = rooms.Where(x => x.relations.Count != 0).ToList();
+                result = relationRooms[Map.r.Next(0, relationRooms.Count)];
+            }
+            else
+                result = rooms[Map.r.Next(0, rooms.Count)];
+
+            return result;
         }
     }
 }

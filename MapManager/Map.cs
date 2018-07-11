@@ -171,7 +171,7 @@ namespace ZombieProyect_Desktop.Classes
 
             List<Room> roomTree = new List<Room>
             {
-                MakeStartingRoom(RoomType.GetRandomRoomType(roomsDocument))
+                MakeStartingRoom(RoomType.GetRandomRoomType(roomsDocument, true))
             };
 
             for (int c = 1; c < complexity; c++)
