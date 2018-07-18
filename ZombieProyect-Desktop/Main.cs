@@ -34,13 +34,14 @@ namespace ZombieProyect_Desktop
         public static readonly string texturePackage = "sekritDLC_CrappyTextures";
         public static ContentManager contentManager;
         public static Map mainMap;
+        public static readonly Point screenResolution = new Point(1280, 720);
 
         public Main()
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferHeight = 720,
-                PreferredBackBufferWidth = 1280
+                PreferredBackBufferHeight = screenResolution.Y,
+                PreferredBackBufferWidth = screenResolution.X
             };
             Content.RootDirectory = "Content";
 
@@ -159,7 +160,8 @@ namespace ZombieProyect_Desktop
 
             bool roomView = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Space)) roomView = true;
-            
+
+            Point halfScreen = (screenResolution.ToVector2() / 2).ToPoint();
             foreach (Tile t in mainMap.tileMap)
             {
                 Color c = Color.White;
@@ -179,9 +181,9 @@ namespace ZombieProyect_Desktop
                             if (_w.GetType() == typeof(Door))
                             {
                                 if (t.GetAccordingTexture() == WallTextureType.horizontal) // Door is horizontal
-                                    spriteBatch.Draw(doorTextures[0, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                    spriteBatch.Draw(doorTextures[0, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                                 if (t.GetAccordingTexture() == WallTextureType.vertical) // Door is vertical
-                                    spriteBatch.Draw(doorTextures[1, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                    spriteBatch.Draw(doorTextures[1, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                             }
                             else
                             {
@@ -192,7 +194,7 @@ namespace ZombieProyect_Desktop
                                         tex = wallTextures[1, 0];
                                         // Set wallpaper
                                         Texture2D wallpaper = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1].parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
-                                        spriteBatch.Draw(wallpaper, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                        spriteBatch.Draw(wallpaper, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.vertical:
                                         tex = wallTextures[0, 1];
@@ -207,13 +209,13 @@ namespace ZombieProyect_Desktop
                                         tex = wallTextures[0, 2];
                                         // Set wallpaper
                                         Texture2D wallp = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
-                                        spriteBatch.Draw(wallp, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                        spriteBatch.Draw(wallp, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.lefttopcorner:
                                         tex = wallTextures[1, 2];
                                         // Set wallpaper
                                         Texture2D wallpa = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
-                                        spriteBatch.Draw(wallpa, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                        spriteBatch.Draw(wallpa, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.allbutupjoint:
                                         tex = wallTextures[3, 0];
@@ -225,7 +227,7 @@ namespace ZombieProyect_Desktop
                                         tex = wallTextures[2, 0];
                                         // Set wallpaper
                                         Texture2D wallpap = wallpapers[mainMap.tileMap[t.Pos.X, t.Pos.Y + 1]?.parentRoom?.type.wallpaperType ?? 0, 0]; // This line here gets the floor below the wall (Since the wall itself isn't on any rooms) and checks its room to get its wallpaper number.
-                                        spriteBatch.Draw(wallpap, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                        spriteBatch.Draw(wallpap, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                                         break;
                                     case WallTextureType.allbutleftjoint:
                                         tex = wallTextures[2, 2];
@@ -239,19 +241,19 @@ namespace ZombieProyect_Desktop
                                     default:
                                         break;
                                 }
-                                spriteBatch.Draw(tex, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                                spriteBatch.Draw(tex, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                             } break;
                             
                         case Floor _w:
-                            spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
+                            spriteBatch.Draw(floors[t.parentRoom.type.floorType, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), c);
                             break;
 
                         case OutsideFloor _w:
-                            spriteBatch.Draw(floors[3, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
+                            spriteBatch.Draw(floors[3, 0], new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), c);
                             break;
 
                         default:
-                            spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint(), new Point(tileSize)), c);
+                            spriteBatch.Draw(blankTexture, new Rectangle(new Point(t.Pos.X * tileSize, t.Pos.Y * tileSize) - (Player.pos * tileSize).ToPoint() + halfScreen, new Point(tileSize)), c);
                             break;
                     }
                 }
@@ -262,8 +264,8 @@ namespace ZombieProyect_Desktop
                     {
                         Room room = mainMap.rooms[r];
                         if (room == null) continue;
-                        spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()* tileSize - Player.pos*tileSize, Color.White);
-                        spriteBatch.DrawString(font, mainMap.rooms[r].type.name ?? "", room.roomPos.ToVector2() * tileSize - Player.pos * tileSize+ new Vector2(20), Color.White);
+                        spriteBatch.DrawString(font, "Room " + r, room.roomPos.ToVector2()* tileSize - Player.pos* tileSize + halfScreen.ToVector2(), Color.White);
+                        spriteBatch.DrawString(font, mainMap.rooms[r].type.name ?? "", room.roomPos.ToVector2() * tileSize - Player.pos * tileSize+ new Vector2(20) + halfScreen.ToVector2(), Color.White);
                     }
                 }
             }
@@ -273,7 +275,7 @@ namespace ZombieProyect_Desktop
                 switch (o)
                 {
                     case Furniture f:
-                        spriteBatch.Draw(furnitureTextures[f.type.textureRef], new Rectangle(((o.pos  - Player.pos) * tileSize).ToPoint(), new Point(tileSize)), Color.White);
+                        spriteBatch.Draw(furnitureTextures[f.type.textureRef], new Rectangle(((o.pos  - Player.pos) * tileSize).ToPoint() + halfScreen, new Point(tileSize)), Color.White);
                         break;
                     default:
                         break;
