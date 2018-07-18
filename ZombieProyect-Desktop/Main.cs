@@ -21,6 +21,7 @@ namespace ZombieProyect_Desktop
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static Texture2D blankTexture;
+        public static Texture2D charTexture;
         static Texture2D[,] wallTextures;
         public static Texture2D[,] wallpapers;
         public static Texture2D[,] floors;
@@ -78,6 +79,7 @@ namespace ZombieProyect_Desktop
             wallTextures = Content.Load<Texture2D>("textures/" + texturePackage + "/walls-common").SplitTileset(new Point(16,16));
             wallpapers = Content.Load<Texture2D>("textures/" + texturePackage + "/wallpapers").SplitTileset(new Point(16, 16));
             doorTextures = Content.Load<Texture2D>("textures/" + texturePackage + "/doors").SplitTileset(new Point(16, 16));
+            charTexture = Content.Load<Texture2D>("textures/" + texturePackage + "/char");
             floors = Content.Load<Texture2D>("textures/" + texturePackage + "/floors").SplitTileset(new Point(16, 16));
             string docPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Content\rooms.xml");
             roomsDocument.Load(docPath);
@@ -281,6 +283,8 @@ namespace ZombieProyect_Desktop
                         break;
                 }
             }
+
+            spriteBatch.Draw(charTexture, new Rectangle(halfScreen, new Point(tileSize)), Color.White);
 
             #region Frame counter
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
